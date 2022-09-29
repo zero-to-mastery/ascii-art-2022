@@ -40,7 +40,7 @@ In order to get started on this project, it is recommended that you watch the se
 
 4. Make sure you have Python 3 installed on your machine
 5. Install [Pillow library](https://pillow.readthedocs.io/en/stable/installation.html)
-6. Run the example code with the command: `python3 example/make_art.py ztm-logo.png`
+6. Run the example code with the command: `python3 example/make_art.py example/ztm-logo.png`
 7. Stare with amazement 😮
 
 ## ❇️ How to contribute?
