@@ -1,0 +1,9 @@
+{% extends 'base.html' %} {% block body %}
+<h1>Welcome to the ZTM ASCII Art Generator Web App!</h1>
+<div>
+  <form action="/" method="post" enctype="multipart/form-data">
+    <input type="file" name="file" />
+    <input type="submit" value="Upload" />
+  </form>
+</div>
+{% endblock %}
