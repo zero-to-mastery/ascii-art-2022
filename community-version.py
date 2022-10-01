@@ -158,6 +158,10 @@ if __name__ == "__main__":
     else:
         raise Exception("The value you choosed is neither an integer nor a list.")
 
-    image_file_path = sys.argv[1]
+    try:
+        image_file_path = sys.argv[1]
+    except IndexError:
+        print("You forgot to provide an Image path")
+        image_file_path = input("Oops, you forgot to specify an Image path: ")
     print(image_file_path)
     handle_image_conversion(image_file_path, range_width)
