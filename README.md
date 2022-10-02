@@ -40,9 +40,10 @@ In order to get started on this project, it is recommended that you watch the se
 
 4. Make sure you have Python 3 installed on your machine
 5. Install [Pillow library](https://pillow.readthedocs.io/en/stable/installation.html)
-6. Run the example code with the command: `python3 example/make_art.py example/ztm-logo.png`
-7. Stare with amazement 😮
-8. Start chatting with other ZTM students in the #hacktoberfest-2022 channel on our Discord to get help, work together, and share your contributions!
+6. Install [rich library](https://github.com/Textualize/rich)
+7. Run the example code with the command: `python3 example/make_art.py example/ztm-logo.png`
+8. Stare with amazement 😮
+9. Start chatting with other ZTM students in the #hacktoberfest-2022 channel on our Discord to get help, work together, and share your contributions!
 
 ## ❇️ How to contribute?
 

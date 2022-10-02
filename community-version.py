@@ -7,6 +7,7 @@ from random import choice
 from time import sleep
 
 from PIL import Image, ImageChops
+from rich.console import Console
 
 
 def scale_image(image, new_width=100):
@@ -89,15 +90,14 @@ def handle_image_print(image_ascii):
         "ROMs",
         "Viruses",
     ]
-
-    print("Turning your image into ASCII art...")
-    sleep(1)
-    for i in range(4):
-        print(f"{choice(verbs)} {choice(nouns)}...")
+    console = Console()
+    with console.status("[bold green]Turning your image into ASCII art...") as status:
+        for _ in range(4):
+            console.log(f"{choice(verbs)} {choice(nouns)}...")
+            sleep(1)
         sleep(1)
-    print("Here we go...!")
-    sleep(1)
-    print()
+
+    console.log("[bold green]Here we go...!")
     print(image_ascii)
 
 
@@ -120,27 +120,38 @@ def handle_image_conversion(image_filepath, range_width, inverse_color):
     image_ascii = convert_image_to_ascii(image, range_width=range_width)
     handle_image_print(image_ascii)
 
+
 def init_args_parser():
     parser = argparse.ArgumentParser()
-    
+
     # positional arguments
-    parser.add_argument(dest="image_file_path", nargs="?", type=str, help="Image file path.")
-    parser.add_argument(dest="CHAR_SET", nargs="?", type=str, help="Input 1 or 2 to select pre-defined character sets." \
-        + "Or, input a list of characters in the format '[a,b,c,d]'.")
+    parser.add_argument(
+        dest="image_file_path", nargs="?", type=str, help="Image file path."
+    )
+    parser.add_argument(
+        dest="CHAR_SET",
+        nargs="?",
+        type=str,
+        help="Input 1 or 2 to select pre-defined character sets."
+        + "Or, input a list of characters in the format '[a,b,c,d]'.",
+    )
 
     # flag arguments
-    parser.add_argument("--inverse", dest="inverse_image", action="store_true", default=False)
+    parser.add_argument(
+        "--inverse", dest="inverse_image", action="store_true", default=False
+    )
 
     args = parser.parse_args()
-    
+
     return args
+
 
 if __name__ == "__main__":
     args = init_args_parser()
-    if (
-        args.CHAR_SET
-    ):  # The user Specefied which CHAR_SET to use or included his/her own
-        CHAR_SET = args.CHAR_SET # Either an integer value specifying which previously made set to use, or a list value with the characters to use
+    # The user Specefied which CHAR_SET to use or included his/her own
+    if args.CHAR_SET:
+        # Either an integer value specifying which previously made set to use, or a list value with the characters to use
+        CHAR_SET = args.CHAR_SET
 
         if CHAR_SET[0] == "[" and CHAR_SET[-1] == "]":  # is a list
             CHAR_SET = CHAR_SET[1:-1].split(",")  # Convert the string into a list
@@ -160,9 +171,8 @@ if __name__ == "__main__":
     # Check if the CHAR_SET is a list value
     if isinstance(CHAR_SET, list):
         ASCII_CHARS = CHAR_SET
-        range_width = ceil(
-            (255 + 1) / len(ASCII_CHARS)
-        )  # as the range width is based on the number of ASCII_CHARS we have
+        # as the range width is based on the number of ASCII_CHARS we have
+        range_width = ceil((255 + 1) / len(ASCII_CHARS))
 
     elif isinstance(CHAR_SET, int):
         if CHAR_SET == 1:  # The original CHAR_SET from the example file
@@ -183,6 +193,6 @@ if __name__ == "__main__":
     if not image_file_path:
         print("You forgot to provide an Image path")
         image_file_path = input("Oops, you forgot to specify an Image path: ")
-    
+
     print(image_file_path)
     handle_image_conversion(image_file_path, range_width, args.inverse_image)
