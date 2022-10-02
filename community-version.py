@@ -105,6 +105,22 @@ def inverse_image_color(image):
     inverted_image = ImageChops.invert(image)
     return inverted_image
 
+# color of ascii characters
+def ascii_color(image_filepath, range_width):
+    console = Console()
+    image = None
+    try:
+        image = Image.open(image_filepath)
+    except Exception as e:
+        print(f"Unable to open image file {image_filepath}.")
+        print(e)
+        return
+
+    img = convert_image_to_ascii(image, range_width)
+    col = input("Enter a color(red, green, yellow): ")
+    print("You choose color " + col)
+    console.print(img, style=col)
+
 
 def handle_image_conversion(image_filepath, range_width, inverse_color):
     image = None
@@ -196,3 +212,6 @@ if __name__ == "__main__":
 
     print(image_file_path)
     handle_image_conversion(image_file_path, range_width, args.inverse_image)
+
+    # ascii color
+    ascii_color(image_file_path, range_width)
