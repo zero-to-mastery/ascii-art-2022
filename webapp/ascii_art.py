@@ -5,7 +5,7 @@ from PIL import Image
 from werkzeug.utils import secure_filename
 import warnings
 from make_art import convert_image_to_ascii
-
+from pathlib import Path
 IMG_FOLDER = os.path.join('static', "IMG")
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
 app = Flask(__name__)
@@ -19,20 +19,22 @@ def allowed_file(filename):
 
 
 def check_for_folder():
-    '''Basically it will check if there are already existing folder named images and gallery or not'''
-    if not os.getcwd() == "webapp":
+    '''Basically it will check if there are already existing folder named images or not'''
+    if not Path.cwd().name == "webapp":
         warnings.warn(
             "\nPlease shift webapp directory for program to run functionally", DeprecationWarning)
 # If this if block is not supplied then python will create the IMG_FOLDER directory outside and cause conflictions.
-        return
-    for dirs in [IMG_FOLDER]:
-        if not os.path.isdir(dirs):
-            os.makedirs(dirs, mode=777)
-        print("Initializig Directories...")
+    if Path.cwd().name == "webapp":
+        if os.path.isdir("static"):
+            return print("Existing Directories Found.")
+        for dirs in [IMG_FOLDER]:
+            if not os.path.isdir(dirs):
+                os.makedirs(dirs, mode=777)
+            print("Initializig Directories...")
 
 
 check_for_folder()
-# Giving user time to read the messages provided by the fucntion above
+# Giving user time to read the message provided by the fucntion above
 time.sleep(4)
 
 
@@ -53,7 +55,6 @@ def upload_file():
             file.save(filepath)
             img = Image.open(filepath)
             ascii_ = convert_image_to_ascii(img)
-            # file.save("./gallery") Giving Permission denied error so just used image folder instead. Solve it if you can please
             file.close()
             return render_template("ascii.html", ascii=ascii_)
     return render_template("upload.html")
