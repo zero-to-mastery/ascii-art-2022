@@ -1,5 +1,4 @@
-## Community Version
-import sys
+# Community Version
 import argparse
 
 from math import ceil
