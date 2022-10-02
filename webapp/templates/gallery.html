@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>ZTM ASCII Art Generator: The Web App!</title>
+  </head>
+  <h1>Recent Pictures</h1>
+
+  <body>
+    {% for i in imagelist %}
+    <img
+      src="{{ url_for('static', filename=i)}}"
+      height="240px"
+      width="300px"
+    />
+    {% endfor %}
+  </body>
+</html>
