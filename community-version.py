@@ -1,5 +1,10 @@
 ## Community Version
+
 import sys
+import subprocess
+#Installing the required package
+subprocess.check_call([sys.executable, '-m', 'pip', 'install','pillow','rich','flask'])
+
 import argparse
 
 from math import ceil
