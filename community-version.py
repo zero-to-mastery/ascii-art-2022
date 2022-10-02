@@ -1,11 +1,12 @@
 ## Community Version
 import sys
+import argparse
 
 from math import ceil
 from random import choice
 from time import sleep
 
-from PIL import Image
+from PIL import Image, ImageChops
 
 
 def scale_image(image, new_width=100):
@@ -100,10 +101,17 @@ def handle_image_print(image_ascii):
     print(image_ascii)
 
 
-def handle_image_conversion(image_filepath, range_width):
+def inverse_image_color(image):
+    inverted_image = ImageChops.invert(image)
+    return inverted_image
+
+
+def handle_image_conversion(image_filepath, range_width, inverse_color):
     image = None
     try:
         image = Image.open(image_filepath)
+        if inverse_color:
+            image = inverse_image_color(image)
     except Exception as e:
         print(f"Unable to open image file {image_filepath}.")
         print(e)
@@ -112,19 +120,31 @@ def handle_image_conversion(image_filepath, range_width):
     image_ascii = convert_image_to_ascii(image, range_width=range_width)
     handle_image_print(image_ascii)
 
+def init_args_parser():
+    parser = argparse.ArgumentParser()
+    
+    # positional arguments
+    parser.add_argument(dest="image_file_path", nargs="?", type=str, help="Image file path.")
+    parser.add_argument(dest="CHAR_SET", nargs="?", type=str, help="Input 1 or 2 to select pre-defined character sets." \
+        + "Or, input a list of characters in the format '[a,b,c,d]'.")
+
+    # flag arguments
+    parser.add_argument("--inverse", dest="inverse_image", action="store_true", default=False)
+
+    args = parser.parse_args()
+    
+    return args
 
 if __name__ == "__main__":
+    args = init_args_parser()
     if (
-        len(sys.argv) == 3
+        args.CHAR_SET
     ):  # The user Specefied which CHAR_SET to use or included his/her own
-        CHAR_SET = sys.argv[
-            2
-        ]  # Either an integer value specifying which previously made set to use, or a list value with the characters to use
+        CHAR_SET = args.CHAR_SET # Either an integer value specifying which previously made set to use, or a list value with the characters to use
 
         if CHAR_SET[0] == "[" and CHAR_SET[-1] == "]":  # is a list
             CHAR_SET = list(CHAR_SET.split(","))[1:-1]  # Convert the string into a list
             print(CHAR_SET)
-
         else:
             try:
                 CHAR_SET = int(CHAR_SET)
@@ -158,10 +178,11 @@ if __name__ == "__main__":
     else:
         raise Exception("The value you choosed is neither an integer nor a list.")
 
-    try:
-        image_file_path = sys.argv[1]
-    except IndexError:
+    image_file_path = args.image_file_path
+
+    if not image_file_path:
         print("You forgot to provide an Image path")
         image_file_path = input("Oops, you forgot to specify an Image path: ")
+    
     print(image_file_path)
-    handle_image_conversion(image_file_path, range_width)
+    handle_image_conversion(image_file_path, range_width, args.inverse_image)
