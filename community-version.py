@@ -143,8 +143,8 @@ if __name__ == "__main__":
         CHAR_SET = args.CHAR_SET # Either an integer value specifying which previously made set to use, or a list value with the characters to use
 
         if CHAR_SET[0] == "[" and CHAR_SET[-1] == "]":  # is a list
-            CHAR_SET = list(CHAR_SET.split(","))[1:-1]  # Convert the string into a list
-            print(CHAR_SET)
+            CHAR_SET = CHAR_SET[1:-1].split(",")  # Convert the string into a list
+            print("Using custom character set:", CHAR_SET)
         else:
             try:
                 CHAR_SET = int(CHAR_SET)
