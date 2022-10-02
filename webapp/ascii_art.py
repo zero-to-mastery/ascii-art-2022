@@ -3,9 +3,9 @@ import time
 from flask import Flask, flash, request, redirect, render_template, url_for
 from PIL import Image
 from werkzeug.utils import secure_filename
-import warnings
 from make_art import convert_image_to_ascii
 from pathlib import Path
+from colorama import Fore, Back, Style
 IMG_FOLDER = os.path.join('static', "IMG")
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
 app = Flask(__name__)
@@ -21,16 +21,16 @@ def allowed_file(filename):
 def check_for_folder():
     '''Basically it will check if there are already existing folder named images or not'''
     if not Path.cwd().name == "webapp":
-        warnings.warn(
-            "\nPlease shift webapp directory for program to run functionally", DeprecationWarning)
+        print(f"{Fore.RED}Please shift to webapp directory for program to run properly. {Back.WHITE}'cd webapp'{Style.RESET_ALL}")
+        quit()  # Just quit the file because that makes things easier and less complex
 # If this if block is not supplied then python will create the IMG_FOLDER directory outside and cause conflictions.
     if Path.cwd().name == "webapp":
         if os.path.isdir("static"):
-            return print("Existing Directories Found.")
+            return print(f"{Fore.GREEN}Existing Directories Found.{Style.RESET_ALL}")
         for dirs in [IMG_FOLDER]:
             if not os.path.isdir(dirs):
                 os.makedirs(dirs, mode=777)
-            print("Initializig Directories...")
+            print(f"{Fore.YELLOW}Initializig Directories...{Style.RESET_ALL}")
 
 
 check_for_folder()
