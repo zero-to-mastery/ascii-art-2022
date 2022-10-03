@@ -6,6 +6,7 @@ from random import choice
 from time import sleep
 
 from PIL import Image, ImageChops
+from pathlib import Path
 from rich.console import Console
 
 
@@ -13,7 +14,7 @@ def scale_image(image, new_width=100):
     """Resizes an image preserving the aspect ratio."""
     (original_width, original_height) = image.size
     aspect_ratio = original_height / float(original_width)
-    new_height = int(aspect_ratio * new_width)
+    new_height = int(aspect_ratio/2 * new_width)
 
     new_image = image.resize((new_width, new_height))
     return new_image
@@ -102,6 +103,11 @@ def handle_image_print(image_ascii, color):
     else:
         print(image_ascii)
 
+    if args.save_file:
+        file_name = Path(args.image_file_path).name
+        with open(f'ascii_out/{file_name[:-4]}.txt', 'w') as file:
+            file.write(image_ascii)
+
 
 def inverse_image_color(image):
     inverted_image = ImageChops.invert(image)
@@ -153,6 +159,14 @@ def init_args_parser():
             "For example, --color red produces ascii art of red in color."
         ),
     )
+    parser.add_argument(
+        "--save",
+        dest="save_file",
+        action="store_true",
+        help=(
+            "save a txt file with the ascii output"
+        ),
+    )
 
     args = parser.parse_args()
 
@@ -175,7 +189,9 @@ if __name__ == "__main__":
 
             except ValueError:
                 raise ValueError(
-                    "Please insert a correct value, either an int value to select which CHAR_SET to use, or a list value of characters of your own!"
+                    "Please insert a correct value, "
+                    "either an int value to select which CHAR_SET to use, "
+                    "or a list value of characters of your own!"
                 )
 
     else:  # If the user did not select a CHAR_SET
