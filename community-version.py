@@ -1,5 +1,4 @@
-## Community Version
-import sys
+# Community Version
 import argparse
 
 from math import ceil
@@ -91,7 +90,7 @@ def handle_image_print(image_ascii):
         "Viruses",
     ]
     console = Console()
-    with console.status("[bold green]Turning your image into ASCII art...") as status:
+    with console.status("[bold green]Turning your image into ASCII art..."):
         for _ in range(4):
             console.log(f"{choice(verbs)} {choice(nouns)}...")
             sleep(1)
@@ -167,7 +166,7 @@ def init_args_parser():
 
 if __name__ == "__main__":
     args = init_args_parser()
-    # The user Specefied which CHAR_SET to use or included his/her own
+    # The user Specified which CHAR_SET to use or included his/her own
     if args.CHAR_SET:
         # Either an integer value specifying which previously made set to use, or a list value with the characters to use
         CHAR_SET = args.CHAR_SET
@@ -179,8 +178,8 @@ if __name__ == "__main__":
             try:
                 CHAR_SET = int(CHAR_SET)
 
-            except:
-                raise Exception(
+            except ValueError:
+                raise ValueError(
                     "Please insert a correct value, either an int value to select which CHAR_SET to use, or a list value of characters of your own!"
                 )
 
@@ -203,14 +202,13 @@ if __name__ == "__main__":
             range_width = 32
 
         else:
-            raise Exception("Sorry, there are no CHAR_SET of the value you selected")
+            raise Exception("Sorry, there are no CHAR_SET of the value you selected.")
     else:
-        raise Exception("The value you choosed is neither an integer nor a list.")
+        raise Exception("The value you chose is neither an integer nor a list.")
 
     image_file_path = args.image_file_path
 
     if not image_file_path:
-        print("You forgot to provide an Image path")
         image_file_path = input("Oops, you forgot to specify an Image path: ")
 
     print(image_file_path)
@@ -218,3 +216,4 @@ if __name__ == "__main__":
 
     # ascii color
     ascii_color(image_file_path, range_width, args.color_ascii)
+    handle_image_conversion(image_file_path, range_width, args.inverse_image)
