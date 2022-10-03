@@ -6,7 +6,6 @@ from random import choice
 from time import sleep
 
 from PIL import Image, ImageChops
-from pathlib import Path
 from rich.console import Console
 from rich.terminal_theme import MONOKAI
 
@@ -25,12 +24,15 @@ def convert_to_grayscale(image):
     return image.convert("L")
 
 
-def map_pixels_to_ascii_chars(image, range_width):
+def map_pixels_to_ascii_chars(image, range_width, ASCII_CHARS):
     """Maps each pixel to an ascii char based on the range
     in which it lies.
 
     0-255 is divided into 11 ranges of 25 pixels each.
     """
+    # set default ascii character list
+    if ASCII_CHARS == None:
+        ASCII_CHARS = ["#", "?", "%", ".", "S", "+", ".", "*", ":", ",", "@"]
 
     pixels_in_image = list(image.getdata())
     pixels_to_chars = [
@@ -44,11 +46,16 @@ def convert_image_to_ascii(
     image,
     range_width,
     new_width=100,
+    ASCII_CHARS=None
 ):
+    # set default ascii character list
+    if ASCII_CHARS == None:
+        ASCII_CHARS = ["#", "?", "%", ".", "S", "+", ".", "*", ":", ",", "@"]
+
     image = scale_image(image)
     image = convert_to_grayscale(image)
 
-    pixels_to_chars = map_pixels_to_ascii_chars(image, range_width)
+    pixels_to_chars = map_pixels_to_ascii_chars(image, range_width, ASCII_CHARS)
     len_pixels_to_chars = len(pixels_to_chars)
 
     image_ascii = [
@@ -107,11 +114,6 @@ def handle_image_print(image_ascii, color, store):
         else:
             console.print(image_ascii)
 
-    if args.save_file:
-        file_name = Path(args.image_file_path).name
-        with open(f'ascii_out/{file_name[:-4]}.txt', 'w') as file:
-            file.write(image_ascii)
-
 
 def inverse_image_color(image):
     inverted_image = ImageChops.invert(image)
@@ -129,7 +131,7 @@ def handle_image_conversion(image_filepath, range_width, inverse_color, color=No
         print(e)
         return
 
-    image_ascii = convert_image_to_ascii(image, range_width=range_width)
+    image_ascii = convert_image_to_ascii(image, range_width=range_width, ASCII_CHARS=ASCII_CHARS)
     return image_ascii, color
 
 

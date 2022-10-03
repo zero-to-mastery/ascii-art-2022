@@ -1,3 +1,4 @@
 Pillow
 rich
-pathlib
+Flask
+werkzeug
