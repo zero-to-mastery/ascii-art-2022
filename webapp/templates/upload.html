@@ -1,9 +1,54 @@
 {% extends 'base.html' %} {% block body %}
-<h1>Welcome to the ZTM ASCII Art Generator Web App!</h1>
-<div>
-  <form action="/" method="post" enctype="multipart/form-data">
-    <input type="file" name="file" />
-    <input type="submit" value="Upload" />
-  </form>
+
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+.upload{
+ background-color:#4434ae;
+ color: rgb(0, 0, 0);
+ font-weight: 1000;
+ cursor: pointer;
+ margin-top: 30px;
+ text-align: auto;
+}
+.head{
+ color: rgb(87, 87, 248);
+}
+.fileUploadInput input {
+ background-color: rgb(87, 87, 248);
+ width: 500px;
+ height: 50px;
+ border-radius: 1000px;
+ border: none;
+ font-weight: 1000;
+ cursor: pointer;
+}
+.fileUploadInput input[type="file"] {
+ color: rgb(0, 0, 0);
+}
+.fileUploadInput input[type="file"]::-webkit-file-upload-button {
+visibility: hidden;
+height: 50px;
+  }
+</style>
+</head>
+
+<body style="background: rgb(0, 0, 0)">
+
+<div class="head">  <h1>Welcome to the ZTM ASCII Art Generator Web App!</h1> </div>
+
+<form action="/" method="post" enctype="multipart/form-data">
+
+<div class="fileUploadInput">
+
+<input type="file" name="file"/>
+<input   class="upload" type="submit" value="Upload"  />
+
 </div>
+</form>
+</body>
+</html>
+
+
 {% endblock %}
