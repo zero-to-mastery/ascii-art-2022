@@ -106,7 +106,7 @@ def inverse_image_color(image):
     return inverted_image
 
 # color of ascii characters
-def ascii_color(image_filepath, range_width):
+def ascii_color(image_filepath, range_width, col):
     console = Console()
     image = None
     try:
@@ -117,8 +117,6 @@ def ascii_color(image_filepath, range_width):
         return
 
     img = convert_image_to_ascii(image, range_width)
-    col = input("Enter a color(red, green, yellow): ")
-    print("You choose color " + col)
     console.print(img, style=col)
 
 
@@ -155,6 +153,11 @@ def init_args_parser():
     # flag arguments
     parser.add_argument(
         "--inverse", dest="inverse_image", action="store_true", default=False
+    )
+    parser.add_argument(
+        "--color", dest="color_ascii", default=False, type = str,
+        help="Add color to your ascii art by mentioning a color after --color." 
+        + "For example, --color red produces ascii art of red in color."
     )
 
     args = parser.parse_args()
@@ -214,4 +217,4 @@ if __name__ == "__main__":
     handle_image_conversion(image_file_path, range_width, args.inverse_image)
 
     # ascii color
-    ascii_color(image_file_path, range_width)
+    ascii_color(image_file_path, range_width, args.color_ascii)
