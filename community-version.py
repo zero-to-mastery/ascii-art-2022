@@ -216,4 +216,4 @@ if __name__ == "__main__":
 
     # ascii color
     ascii_color(image_file_path, range_width, args.color_ascii)
-    handle_image_conversion(image_file_path, range_width, args.inverse_image)
+    # handle_image_conversion(image_file_path, range_width, args.inverse_image)
