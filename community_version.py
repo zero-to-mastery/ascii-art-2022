@@ -167,15 +167,6 @@ def init_args_parser():
         ),
     )
     parser.add_argument(
-        "--save",
-        dest="save_file",
-        action="store_true",
-        help=(
-            "save a txt file with the ascii output"
-        ),
-    )
-
-    parser.add_argument(
         "--store",
         dest="store_art",
         type=str,
