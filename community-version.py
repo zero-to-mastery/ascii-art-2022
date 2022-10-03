@@ -7,6 +7,7 @@ from time import sleep
 
 from PIL import Image, ImageChops
 from rich.console import Console
+from rich.terminal_theme import MONOKAI
 
 
 def scale_image(image, new_width=100):
@@ -57,7 +58,7 @@ def convert_image_to_ascii(
     return "\n".join(image_ascii)
 
 
-def handle_image_print(image_ascii, color):
+def handle_image_print(image_ascii, color, store):
     verbs = [
         "Articulating",
         "Coordinating",
@@ -90,17 +91,20 @@ def handle_image_print(image_ascii, color):
         "Viruses",
     ]
     console = Console()
+
+    # To print beautiful dummy progress bar to the user
     with console.status("[bold green]Turning your image into ASCII art..."):
         for _ in range(4):
             console.log(f"{choice(verbs)} {choice(nouns)}...")
             sleep(1)
         sleep(1)
 
-    console.log("[bold green]Here we go...!")
-    if color:
-        console.print(image_ascii, style=color)
-    else:
-        print(image_ascii)
+        # print the ASCII art to the console.
+        console.log("[bold green]Here we go...!")
+        if color:
+            console.print(image_ascii, style=color)
+        else:
+            console.print(image_ascii)
 
 
 def inverse_image_color(image):
@@ -120,7 +124,7 @@ def handle_image_conversion(image_filepath, range_width, inverse_color, color=No
         return
 
     image_ascii = convert_image_to_ascii(image, range_width=range_width)
-    handle_image_print(image_ascii, color)
+    return image_ascii, color
 
 
 def init_args_parser():
@@ -150,13 +154,28 @@ def init_args_parser():
         type=str,
         help=(
             "Add color to your ascii art by mentioning a color after --color. "
-            "For example, --color red produces ascii art of red in color."
+            "For example, --color red produces ascii art of red in color. "
+            "It also supports hash code that can help you to choose more colors."
         ),
+    )
+
+    parser.add_argument(
+        "--store",
+        dest="store_art",
+        type=str,
+        help=(
+            "Save the ASCII art of the image to a given path. E.g., --store output.svg. "
+            "The result will be great if you choose a svg file extension."
+        )
     )
 
     args = parser.parse_args()
 
     return args
+
+
+def store_ascii_art():
+    pass
 
 
 if __name__ == "__main__":
@@ -207,6 +226,24 @@ if __name__ == "__main__":
         image_file_path = input("Oops, you forgot to specify an Image path: ")
 
     print(image_file_path)
-    handle_image_conversion(
+    # convert the image to ASCII art
+    image_ascii, color = handle_image_conversion(
         image_file_path, range_width, args.inverse_image, args.color_ascii
     )
+    # display the ASCII art to the console
+    capture = handle_image_print(image_ascii, color, args.store_art)
+
+    ### Save the image ###
+    if args.store_art:
+        try:
+            if args.store_art[-4:] == ".txt":
+                with open(args.store_art, "wt") as report_file:
+                    console = Console(style=color, file=report_file, record=True)
+                    if color:
+                        console.print(image_ascii, style=color)
+                    else:
+                        console.print(image_ascii)
+            else:
+                raise Exception("The file extension did not match as txt file!")
+        except Exception as e:
+            print("\33[101mOops, I think you have choosed wrong file extension. Please give a svg file name e.g., output.txt \033[0m")
