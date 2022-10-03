@@ -57,7 +57,7 @@ def convert_image_to_ascii(
     return "\n".join(image_ascii)
 
 
-def handle_image_print(image_ascii):
+def handle_image_print(image_ascii, color):
     verbs = [
         "Articulating",
         "Coordinating",
@@ -97,29 +97,18 @@ def handle_image_print(image_ascii):
         sleep(1)
 
     console.log("[bold green]Here we go...!")
-    print(image_ascii)
+    if color:
+        console.print(image_ascii, style=color)
+    else:
+        print(image_ascii)
 
 
 def inverse_image_color(image):
     inverted_image = ImageChops.invert(image)
     return inverted_image
 
-# color of ascii characters
-def ascii_color(image_filepath, range_width, col):
-    console = Console()
-    image = None
-    try:
-        image = Image.open(image_filepath)
-    except Exception as e:
-        print(f"Unable to open image file {image_filepath}.")
-        print(e)
-        return
 
-    img = convert_image_to_ascii(image, range_width)
-    console.print(img, style=col)
-
-
-def handle_image_conversion(image_filepath, range_width, inverse_color):
+def handle_image_conversion(image_filepath, range_width, inverse_color, color=None):
     image = None
     try:
         image = Image.open(image_filepath)
@@ -131,7 +120,7 @@ def handle_image_conversion(image_filepath, range_width, inverse_color):
         return
 
     image_ascii = convert_image_to_ascii(image, range_width=range_width)
-    handle_image_print(image_ascii)
+    handle_image_print(image_ascii, color)
 
 
 def init_args_parser():
@@ -145,8 +134,10 @@ def init_args_parser():
         dest="CHAR_SET",
         nargs="?",
         type=str,
-        help="Input 1 or 2 to select pre-defined character sets."
-        + "Or, input a list of characters in the format '[a,b,c,d]'.",
+        help=(
+            "Input 1 or 2 to select pre-defined character sets. "
+            "Or, input a list of characters in the format '[a,b,c,d]'."
+        ),
     )
 
     # flag arguments
@@ -154,9 +145,13 @@ def init_args_parser():
         "--inverse", dest="inverse_image", action="store_true", default=False
     )
     parser.add_argument(
-        "--color", dest="color_ascii", default=False, type = str,
-        help="Add color to your ascii art by mentioning a color after --color." 
-        + "For example, --color red produces ascii art of red in color."
+        "--color",
+        dest="color_ascii",
+        type=str,
+        help=(
+            "Add color to your ascii art by mentioning a color after --color. "
+            "For example, --color red produces ascii art of red in color."
+        ),
     )
 
     args = parser.parse_args()
@@ -212,8 +207,6 @@ if __name__ == "__main__":
         image_file_path = input("Oops, you forgot to specify an Image path: ")
 
     print(image_file_path)
-    handle_image_conversion(image_file_path, range_width, args.inverse_image)
-
-    # ascii color
-    ascii_color(image_file_path, range_width, args.color_ascii)
-    # handle_image_conversion(image_file_path, range_width, args.inverse_image)
+    handle_image_conversion(
+        image_file_path, range_width, args.inverse_image, args.color_ascii
+    )
