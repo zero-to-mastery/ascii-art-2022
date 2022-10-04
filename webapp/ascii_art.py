@@ -3,10 +3,9 @@ import time
 from flask import Flask, request, redirect, render_template
 from PIL import Image
 from werkzeug.utils import secure_filename
-import warnings
 from ..community_version import convert_image_to_ascii
 from pathlib import Path
-
+from colorama import Fore, Back, Style
 IMG_FOLDER = os.path.join('static', "IMG")
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
 
@@ -24,21 +23,19 @@ def allowed_file(filename):
 def check_for_folder():
     '''Basically it will check if there are already existing folder named images or not'''
     if not Path.cwd().name == "webapp":
-        warnings.warn(
-            "\nPlease shift webapp directory for program to run functionally", DeprecationWarning)
+        print(f"{Fore.RED}Please shift to webapp directory for program to run properly. {Back.WHITE}'cd webapp'{Style.RESET_ALL}")
+        quit()  # Just quit the file because that makes things easier and less complex
 # If this if block is not supplied then python will create the IMG_FOLDER directory outside and cause conflictions.
     if Path.cwd().name == "webapp":
         if os.path.isdir("static"):
-            return print("Existing Directories Found.")
+            return print(f"{Fore.GREEN}Existing Directories Found.{Style.RESET_ALL}")
         for dirs in [IMG_FOLDER]:
             if not os.path.isdir(dirs):
                 os.makedirs(dirs, mode=777)
-            print("Initializig Directories...")
+            print(f"{Fore.YELLOW}Initializig Directories...{Style.RESET_ALL}")
 
 
 check_for_folder()
-# Giving user time to read the message provided by the fucntion above
-time.sleep(4)
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -64,9 +61,7 @@ def upload_file():
             ascii_ = convert_image_to_ascii(img, range_width, ASCII_CHARS=ASCII_CHARS)
             file.close()
 
-            # also delete the uploaded file from the folder
             try:
-                os.remove(filepath)
                 return render_template("ascii.html", ascii=ascii_)
             except Exception as e:
                 return render_template("upload.html", error="Some error occurred! Try again")
@@ -74,10 +69,20 @@ def upload_file():
     return render_template("upload.html")
 
 
-@app.route("/gallery")
-def gallery():
+@app.route("/gallery/<path:file_path>")
+def gallery(file_path=""):
     IMG_LIST = os.listdir('static/IMG')
     IMG_LIST = ['IMG/' + i for i in IMG_LIST]
+    if file_path != "main":
+        file = file_path
+        filename = secure_filename(file.split("/")[1])
+        filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+        img = Image.open(filepath)
+        ASCII_CHARS = ["#", "?", "%", ".", "S", "+", ".", "*", ":", ",", "@"]
+        range_width = 25
+        ascii_ = convert_image_to_ascii(img, range_width, ASCII_CHARS=ASCII_CHARS)
+        return render_template("ascii.html", ascii=ascii_)
+
     return render_template("gallery.html", imagelist=IMG_LIST)
 
 

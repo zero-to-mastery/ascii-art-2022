@@ -2,3 +2,4 @@ Pillow
 rich
 Flask
 Werkzeug
+colorama
