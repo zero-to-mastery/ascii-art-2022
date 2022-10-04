@@ -174,8 +174,9 @@ def init_args_parser():
     return args
 
 
-def store_ascii_art():
-    pass
+def store_ascii_art(image_ascii):
+    with open("image_ascii.txt", "w") as f:
+        f.write(image_ascii)
 
 
 if __name__ == "__main__":
@@ -234,6 +235,8 @@ if __name__ == "__main__":
     capture = handle_image_print(image_ascii, color, args.store_art)
 
     ### Save the image ###
+    store_ascii_art(image_ascii)
+    
     if args.store_art:
         try:
             if args.store_art[-4:] == ".txt":
