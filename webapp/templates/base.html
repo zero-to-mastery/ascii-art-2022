@@ -1,12 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <style>
+      * {
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+      }
+
+      .nav-container {
+        width: 100%;
+        height: 75px;
+        top: 0px;
+
+        background-color: #696969;
+      }
+
+      .nav-buttons {
+        justify-content: center;
+        display: flex;
+      }
+
+      .nav-button {
+        display: inline-block;
+      }
+
+      .nv-btn {
+        background-color: lightgrey;
+        border: transparent;
+        border-radius: 5px 30px;
+
+        height: 30px;
+        width: 150px;
+
+        margin-left: 30px;
+        margin-right: 30px;
+        margin-top: 18.75px;
+      }
+
+      .nv-log {
+        background-color: lightgrey;
+        border: transparent;
+        border-radius: 5px 30px;
+        float: right;
+        margin-right: 25px;
+        transform: translateY(-100%);
+      }
+
+      .nv-btn,
+      .nv-log {
+        font-weight: bold;
+      }
+
+      .nv-btn:hover,
+      .nv-log:hover {
+        background-color: yellow;
+        box-shadow: 10px 10px 25px black;
+      }
+    </style>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ZTM ASCII Art Generator: The Web App!</title>
   </head>
   <body>
+    <link
+      rel="stylesheet/css"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+
+    <div class="nav-container">
+      <div class="nav-buttons">
+        <div class="nav-button">
+          <button class="nv-btn" onclick="location.href='/'" type="button">
+            Home
+          </button>
+        </div>
+        <div class="nav-button">
+          <button
+            class="nv-btn"
+            onclick="location.href='/gallery/main'"
+            type="button"
+          >
+            Gallery
+          </button>
+        </div>
+      </div>
+    </div>
     {% block body %}{% endblock %}
   </body>
 </html>
