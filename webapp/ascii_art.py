@@ -86,5 +86,14 @@ def gallery(file_path=""):
     return render_template("gallery.html", imagelist=IMG_LIST)
 
 
+@app.route("/gallery/main/", methods=["POST"])
+def remove_file():
+    for file in request.form:
+        os.remove(os.path.join('static', file))
+    IMG_LIST = os.listdir('static/IMG')
+    IMG_LIST = ['IMG/' + i for i in IMG_LIST]
+    return render_template("gallery.html", imagelist=IMG_LIST)
+
+
 if __name__ == "__main__":
     app.run(debug=True)

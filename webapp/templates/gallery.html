@@ -55,23 +55,23 @@
       display: flex;
       flex-wrap: wrap;
     }
-    /* .body > div {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    } */
     </style>
     <form action="/gallery" method="post" enctype="multipart/form-data"></form>
     <div class="body">
       {% for i in imagelist %}
+        <div>
         <img
           src="{{ url_for('static', filename=i)}}"
           height="240px"
           width="300px"
-        />
+        /><br>
+        {{i.split('/')[-1]}}
+        </div>
         <div>
-          <input class="button-remove-gallery" type="submit" value="Remove" type="button"/>
-          <input class="button-convert-gallery" type="submit" value="Convert" id="{{i.split('/')[3]}}" onclick="javascript:window.location.href='{{i}}'"/>
+          <form method="post">
+            <input class="button-remove-gallery" type="submit" value="Remove" name="{{i}}"/>
+          </form>
+          <input class="button-convert-gallery" type="submit" value="Convert" id="{{i.split('/')[-1]}}" onclick="javascript:window.location.href='{{i}}'"/>
         </div>
       {% endfor %}
     </div>
