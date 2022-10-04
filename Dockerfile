@@ -8,4 +8,4 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-CMD ["python", "example/make_art.py"]
+CMD ["python", "community_version.py"]

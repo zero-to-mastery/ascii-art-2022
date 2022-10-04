@@ -46,12 +46,6 @@ In order to get started on this project, it is recommended that you watch the se
 8. Stare with amazement 😮
 9. Start chatting with other ZTM students in the #hacktoberfest-2022 channel on our Discord to get help, work together, and share your contributions!
 
-### ❇️ Run with Docker
-
-1. Install [Docker](https://docs.docker.com/get-docker/)
-2. Run `docker build -t ascii-art .`
-3. Run `docker run -i ascii-art < path/to/image`
-
 ## ❇️ How to contribute?
 
 Now that you see how this command line tool works, let's see how we can evolve it with our ZTM community help!! Maybe we want to display this on an HTML web page where users can submit images and we convert it to ASCII art? Maybe we want to improve how the Command Line Tool works/make it more customizeable? Or maybe modify the script to do many other types of art beyond ASCII.
