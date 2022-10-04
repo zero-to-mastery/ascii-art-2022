@@ -6,12 +6,16 @@
   <h1>Recent Pictures</h1>
 
   <body>
-    {% for i in imagelist %}
-    <img
-      src="{{ url_for('static', filename=i)}}"
-      height="240px"
-      width="300px"
-    />
+      <form action="/gallery" method="post" enctype="multipart/form-data"></form>
+      {% for i in imagelist %}
+      <img
+        src="{{ url_for('static', filename=i)}}"
+        height="240px"
+        width="300px"
+      />
+
+      <input type="submit" value="Convert" id="{{i.split('/')[3]}}" onclick="javascript:window.location.href='{{i}}'"/>
     {% endfor %}
+  </form>
   </body>
 </html>

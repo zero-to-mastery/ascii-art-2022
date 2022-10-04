@@ -34,8 +34,6 @@ def check_for_folder():
 
 
 check_for_folder()
-# Giving user time to read the message provided by the fucntion above
-time.sleep(4)
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -60,10 +58,18 @@ def upload_file():
     return render_template("upload.html")
 
 
-@app.route("/gallery")
-def gallery():
+@app.route("/gallery/<path:file_path>")
+def gallery(file_path=""):
     IMG_LIST = os.listdir('static/IMG')
     IMG_LIST = ['IMG/' + i for i in IMG_LIST]
+    if file_path != "main":
+        file = file_path
+        filename = secure_filename(file.split("/")[1])
+        filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+        img = Image.open(filepath)
+        ascii_ = convert_image_to_ascii(img)
+        return render_template("ascii.html", ascii=ascii_)
+
     return render_template("gallery.html", imagelist=IMG_LIST)
 
 
