@@ -4,6 +4,8 @@ import argparse
 from math import ceil
 from random import choice
 from time import sleep
+from sys import stdin
+from io import BytesIO
 
 from PIL import Image, ImageChops
 from rich.console import Console
@@ -120,17 +122,10 @@ def inverse_image_color(image):
     return inverted_image
 
 
-def handle_image_conversion(image_filepath, range_width, inverse_color, color=None):
-    image = None
-    try:
-        image = Image.open(image_filepath)
-        if inverse_color:
-            image = inverse_image_color(image)
-    except Exception as e:
-        print(f"Unable to open image file {image_filepath}.")
-        print(e)
-        return
-
+def handle_image_conversion(image: Image, range_width, inverse_color, color=None):
+    if inverse_color:
+        image = inverse_image_color(image)
+        
     image_ascii = convert_image_to_ascii(image, range_width=range_width, ASCII_CHARS=ASCII_CHARS)
     return image_ascii, color
 
@@ -174,6 +169,13 @@ def init_args_parser():
             "Save the ASCII art of the image to a given path. E.g., --store output.svg. "
             "The result will be great if you choose a svg file extension."
         )
+    )
+    parser.add_argument(
+        dest="stdin",
+        nargs='?',
+        type=argparse.FileType("rb"),
+        help="Read image from stdin",
+        default=stdin
     )
 
     args = parser.parse_args()
@@ -229,15 +231,33 @@ if __name__ == "__main__":
     else:
         raise Exception("The value you chose is neither an integer nor a list.")
 
-    image_file_path = args.image_file_path
+    image = None
+    is_stdin = not args.stdin.isatty()
+    
+    if is_stdin:
+        buffer = args.stdin.buffer.read()
+        image = Image.open(BytesIO(buffer))
+    else:
+        image_file_path = args.image_file_path
+        if not image_file_path:
+            image_file_path = input("Oops, you forgot to specify an Image path: ")
+        
+        if image_file_path:
+            print(image_file_path)    
+            try:
+                image = Image.open(image_file_path)
+            except Exception as e:
+                print(f"Unable to open image file {image_file_path}.")
+                print(e)
+                exit(1)
+        
+        
+    if not image:
+        raise Exception("No image was loaded")
 
-    if not image_file_path:
-        image_file_path = input("Oops, you forgot to specify an Image path: ")
-
-    print(image_file_path)
     # convert the image to ASCII art
     image_ascii, color = handle_image_conversion(
-        image_file_path, range_width, args.inverse_image, args.color_ascii
+        image, range_width, args.inverse_image, args.color_ascii
     )
     # display the ASCII art to the console
     capture = handle_image_print(image_ascii, color, args.store_art)
