@@ -74,7 +74,7 @@ def gallery(file_path=""):
     print(request.path)
     IMG_LIST = os.listdir('static/IMG')
     IMG_LIST = ['IMG/' + i for i in IMG_LIST]
-    if file_path != "main":
+    if file_path != "main" and file_path != "main/":
         file = file_path
         filename = secure_filename(file.split("/")[-1])
         filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
@@ -87,6 +87,7 @@ def gallery(file_path=""):
     return render_template("gallery.html", imagelist=IMG_LIST)
 
 
+@app.route("/gallery/main/", methods=["POST"])
 @app.route("/gallery/main", methods=["POST"])
 def remove_file():
     for file in request.form:
