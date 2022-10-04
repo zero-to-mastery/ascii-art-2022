@@ -173,10 +173,18 @@ def init_args_parser():
 
     return args
 
+<<<<<<< HEAD:commandLine/community-version.py
+
+def store_ascii_art(image_ascii):
+    with open("image_ascii.txt", "w") as f:
+        f.write(image_ascii)
+
+=======
 # Storing ascii art
 def store_ascii_art(image_ascii):
     with open("image_ascii.txt", "w") as f:
         f.write(image_ascii)
+>>>>>>> 5b9e9cfc644203949e245f75a0ac65fed2c0161e:community-version.py
 
 
 if __name__ == "__main__":
