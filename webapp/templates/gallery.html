@@ -8,9 +8,31 @@
         src="{{ url_for('static', filename=i)}}"
         height="240px"
         width="300px"
+      
       />
+<style>
+.button-convert-gallery{
+  background-color: #198754;
+  color: white;
+  font-weight: 500;
+  border: none;
+  width: 80px;
+  padding: 10px;
+  border-radius: 10px;
+  vertical-align: bottom;
+}.button-convert-gallery:hover{
+  background-color: #146c43;
+  color: white;
+  font-weight: 500;
+  border: none;
+  width: 80px;
+  padding: 10px;
+  border-radius: 10px;
+  vertical-align: bottom;
+}
 
-      <input type="submit" value="Convert" id="{{i.split('/')[3]}}" onclick="javascript:window.location.href='{{i}}'"/>
+</style>
+      <input class="button-convert-gallery"type="submit" value="Convert" id="{{i.split('/')[3]}}" onclick="javascript:window.location.href='{{i}}'"/>
     {% endfor %}
   </form>
   </body>
