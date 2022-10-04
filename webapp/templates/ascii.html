@@ -1,4 +1,17 @@
 {% extends 'base.html' %} {% block body %}
-<h1>Here is your ASCII art! A masterpiece, is it not?</h1>
-<pre>{{ ascii }}</pre>
+<div class="container">
+    <div class="row mt-4">
+        <h1 class="text-center fw-bold">Here is your ASCII art! A masterpiece, is it not?</h1>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <pre class="text-center" style="border: 2px solid black; border-radius: 20px;"><p>{{ ascii }}</p></pre>
+        </div>
+    </div>
+</div>
+
 {% endblock %}

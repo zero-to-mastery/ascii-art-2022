@@ -1,4 +1,4 @@
 Pillow
 rich
 Flask
-werkzeug
+Werkzeug

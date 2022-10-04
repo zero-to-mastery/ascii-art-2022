@@ -1,54 +1,58 @@
 {% extends 'base.html' %} {% block body %}
 
-<!DOCTYPE html>
-<html>
-<head>
-<style>
-.upload{
- background-color:#4434ae;
- color: rgb(0, 0, 0);
- font-weight: 1000;
- cursor: pointer;
- margin-top: 30px;
- text-align: auto;
-}
-.head{
- color: rgb(87, 87, 248);
-}
-.fileUploadInput input {
- background-color: rgb(87, 87, 248);
- width: 500px;
- height: 50px;
- border-radius: 1000px;
- border: none;
- font-weight: 1000;
- cursor: pointer;
-}
-.fileUploadInput input[type="file"] {
- color: rgb(0, 0, 0);
-}
-.fileUploadInput input[type="file"]::-webkit-file-upload-button {
-visibility: hidden;
-height: 50px;
-  }
-</style>
-</head>
-
-<body style="background: rgb(0, 0, 0)">
-
-<div class="head">  <h1>Welcome to the ZTM ASCII Art Generator Web App!</h1> </div>
-
-<form action="/" method="post" enctype="multipart/form-data">
-
-<div class="fileUploadInput">
-
-<input type="file" name="file"/>
-<input   class="upload" type="submit" value="Upload"  />
-
+<div class="container">
+    <div class="row mt-4">
+        <h1 class="text-center fw-bold">Welcome to the ZTM ASCII Art Generator Web App!</h1>
+    </div>
 </div>
-</form>
-</body>
-</html>
 
+<!-- if filename is empty, this html content will be executed to tell the client about the error -->
+{% if file_error %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <p class="text-center text-danger fw-bold">{{ file_error }}</p>
+            </div>
+        </div>
+    </div>
+{% endif %}
 
+<!-- if some error occurred to delete the file, this html content will be executed to tell the client about the error -->
+{% if error %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <p class="text-center text-danger fw-bold">{{ error }}</p>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+<div class="container">
+    <div class="row">
+        <form action="/" method="post" enctype="multipart/form-data"
+            style="width: 100%; border: 2px solid black; border-radius: 10px; padding: 20px;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 offset-md-3">
+                        <div class="mb-3">
+                            <label for="formFile" class="form-label fw-bold">Upload the image file. <small
+                                    class="text-danger fw-bolder">* Only
+                                    acceptable jpg, jpeg and png files</small></label>
+                            <input class="form-control" type="file" id="formFile" name="file"
+                                accept="image/png, image/jpg, image/jpeg" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!-- <input type="file" name="file" /> -->
+                    <div class="col-md-4  offset-md-4 text-center">
+                        <input type="submit" value="Upload" type="button" class="btn btn-success" />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 {% endblock %}
