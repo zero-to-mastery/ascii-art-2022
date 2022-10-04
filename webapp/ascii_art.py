@@ -73,9 +73,9 @@ def upload_file():
 def gallery(file_path=""):
     IMG_LIST = os.listdir('static/IMG')
     IMG_LIST = ['IMG/' + i for i in IMG_LIST]
-    if file_path != "main":
+    if file_path != "main/":
         file = file_path
-        filename = secure_filename(file.split("/")[1])
+        filename = secure_filename(file.split("/")[-1])
         filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
         img = Image.open(filepath)
         ASCII_CHARS = ["#", "?", "%", ".", "S", "+", ".", "*", ":", ",", "@"]
