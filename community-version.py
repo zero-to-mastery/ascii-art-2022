@@ -7,7 +7,6 @@ from time import sleep
 
 from PIL import Image, ImageChops
 from rich.console import Console
-from rich.terminal_theme import MONOKAI
 
 
 def scale_image(image, new_width=100):
@@ -172,10 +171,6 @@ def init_args_parser():
     args = parser.parse_args()
 
     return args
-
-
-def store_ascii_art():
-    pass
 
 
 if __name__ == "__main__":

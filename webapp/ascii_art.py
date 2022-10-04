@@ -1,16 +1,20 @@
 import os
 import time
-from flask import Flask, flash, request, redirect, render_template, url_for
+from flask import Flask, request, redirect, render_template
 from PIL import Image
 from werkzeug.utils import secure_filename
 import warnings
 from make_art import convert_image_to_ascii
 from pathlib import Path
+
 IMG_FOLDER = os.path.join('static', "IMG")
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
+
 app = Flask(__name__)
+
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * \
     1024  # File can not be largr than 16 Mb
+
 app.config["UPLOAD_FOLDER"] = IMG_FOLDER
 
 
@@ -48,7 +52,8 @@ def upload_file():
         # If the user does not select a file, the browser submits an
         # empty file without a filename.
         if file.filename == "":
-            return redirect(request.url)
+            return render_template("upload.html", file_error = "There is an error about the filename or have not passed the file. Please try again!")
+
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
@@ -56,7 +61,14 @@ def upload_file():
             img = Image.open(filepath)
             ascii_ = convert_image_to_ascii(img)
             file.close()
-            return render_template("ascii.html", ascii=ascii_)
+
+            # also delete the uploaded file from the folder
+            try:
+                os.remove(filepath)
+                return render_template("ascii.html", ascii=ascii_)
+            except Exception as e:
+                return render_template("upload.html", error="Some error occurred! Try again")
+
     return render_template("upload.html")
 
 
