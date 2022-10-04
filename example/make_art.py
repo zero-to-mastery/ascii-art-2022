@@ -43,21 +43,32 @@ def convert_image_to_ascii(image, new_width=100):
 
     return "\n".join(image_ascii)
 
-def handle_image_conversion(image_filepath):
-    image = None
-    try:
-        image = Image.open(image_filepath)
-    except Exception as e:
-        print(f"Unable to open image file {image_filepath}.")
-        print(e)
-        return
-
+def handle_image_conversion(image: Image):
     image_ascii = convert_image_to_ascii(image)
     print(image_ascii)
 
 if __name__=='__main__':
     import sys
+    import io
 
-    image_file_path = sys.argv[1]
-    print(image_file_path)
-    handle_image_conversion(image_file_path)
+    image = None
+    
+    if len(sys.argv) == 2:
+        image_file_path = sys.argv[1]    
+        print(image_file_path)
+        try:
+            image = Image.open(image_file_path)
+        except Exception as e:
+            print(f"Unable to open image file {image_file_path}.")
+            print(e)
+            exit(1)    
+    else:
+        try:
+            buffer = sys.stdin.buffer.read()
+            image = Image.open(io.BytesIO(buffer))
+        except Exception as e:
+            print(f"Unable to open image from stdin.")
+            print(e)
+            exit(1)
+        
+    handle_image_conversion(image)
