@@ -173,7 +173,7 @@ def init_args_parser():
 
     return args
 
-
+# Storing ascii art
 def store_ascii_art(image_ascii):
     with open("image_ascii.txt", "w") as f:
         f.write(image_ascii)
