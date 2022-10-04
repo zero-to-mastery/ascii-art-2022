@@ -71,11 +71,12 @@ def upload_file():
 
 @app.route("/gallery/<path:file_path>")
 def gallery(file_path=""):
+    print(request.path)
     IMG_LIST = os.listdir('static/IMG')
     IMG_LIST = ['IMG/' + i for i in IMG_LIST]
     if file_path != "main":
         file = file_path
-        filename = secure_filename(file.split("/")[1])
+        filename = secure_filename(file.split("/")[-1])
         filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
         img = Image.open(filepath)
         ASCII_CHARS = ["#", "?", "%", ".", "S", "+", ".", "*", ":", ",", "@"]
@@ -83,6 +84,15 @@ def gallery(file_path=""):
         ascii_ = convert_image_to_ascii(img, range_width, ASCII_CHARS=ASCII_CHARS)
         return render_template("ascii.html", ascii=ascii_)
 
+    return render_template("gallery.html", imagelist=IMG_LIST)
+
+
+@app.route("/gallery/main", methods=["POST"])
+def remove_file():
+    for file in request.form:
+        os.remove(os.path.join('static', file))
+    IMG_LIST = os.listdir('static/IMG')
+    IMG_LIST = ['IMG/' + i for i in IMG_LIST]
     return render_template("gallery.html", imagelist=IMG_LIST)
 
 
