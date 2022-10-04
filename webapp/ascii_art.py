@@ -4,7 +4,7 @@ from flask import Flask, request, redirect, render_template
 from PIL import Image
 from werkzeug.utils import secure_filename
 import warnings
-from make_art import convert_image_to_ascii
+from ..community_version import convert_image_to_ascii
 from pathlib import Path
 
 IMG_FOLDER = os.path.join('static', "IMG")
@@ -14,7 +14,6 @@ app = Flask(__name__)
 
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * \
     1024  # File can not be largr than 16 Mb
-
 app.config["UPLOAD_FOLDER"] = IMG_FOLDER
 
 
@@ -59,7 +58,10 @@ def upload_file():
             filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
             file.save(filepath)
             img = Image.open(filepath)
-            ascii_ = convert_image_to_ascii(img)
+
+            ASCII_CHARS = ["#", "?", "%", ".", "S", "+", ".", "*", ":", ",", "@"]
+            range_width = 25
+            ascii_ = convert_image_to_ascii(img, range_width, ASCII_CHARS=ASCII_CHARS)
             file.close()
 
             # also delete the uploaded file from the folder

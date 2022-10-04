@@ -14,7 +14,7 @@ def scale_image(image, new_width=100):
     """Resizes an image preserving the aspect ratio."""
     (original_width, original_height) = image.size
     aspect_ratio = original_height / float(original_width)
-    new_height = int(aspect_ratio * new_width)
+    new_height = int(aspect_ratio/2 * new_width)
 
     new_image = image.resize((new_width, new_height))
     return new_image
@@ -24,12 +24,15 @@ def convert_to_grayscale(image):
     return image.convert("L")
 
 
-def map_pixels_to_ascii_chars(image, range_width):
+def map_pixels_to_ascii_chars(image, range_width, ASCII_CHARS):
     """Maps each pixel to an ascii char based on the range
     in which it lies.
 
     0-255 is divided into 11 ranges of 25 pixels each.
     """
+    # set default ascii character list
+    if ASCII_CHARS == None:
+        ASCII_CHARS = ["#", "?", "%", ".", "S", "+", ".", "*", ":", ",", "@"]
 
     pixels_in_image = list(image.getdata())
     pixels_to_chars = [
@@ -43,11 +46,16 @@ def convert_image_to_ascii(
     image,
     range_width,
     new_width=100,
+    ASCII_CHARS=None
 ):
+    # set default ascii character list
+    if ASCII_CHARS == None:
+        ASCII_CHARS = ["#", "?", "%", ".", "S", "+", ".", "*", ":", ",", "@"]
+
     image = scale_image(image)
     image = convert_to_grayscale(image)
 
-    pixels_to_chars = map_pixels_to_ascii_chars(image, range_width)
+    pixels_to_chars = map_pixels_to_ascii_chars(image, range_width, ASCII_CHARS)
     len_pixels_to_chars = len(pixels_to_chars)
 
     image_ascii = [
@@ -123,7 +131,7 @@ def handle_image_conversion(image_filepath, range_width, inverse_color, color=No
         print(e)
         return
 
-    image_ascii = convert_image_to_ascii(image, range_width=range_width)
+    image_ascii = convert_image_to_ascii(image, range_width=range_width, ASCII_CHARS=ASCII_CHARS)
     return image_ascii, color
 
 
@@ -158,7 +166,6 @@ def init_args_parser():
             "It also supports hash code that can help you to choose more colors."
         ),
     )
-
     parser.add_argument(
         "--store",
         dest="store_art",
@@ -194,7 +201,9 @@ if __name__ == "__main__":
 
             except ValueError:
                 raise ValueError(
-                    "Please insert a correct value, either an int value to select which CHAR_SET to use, or a list value of characters of your own!"
+                    "Please insert a correct value, "
+                    "either an int value to select which CHAR_SET to use, "
+                    "or a list value of characters of your own!"
                 )
 
     else:  # If the user did not select a CHAR_SET
