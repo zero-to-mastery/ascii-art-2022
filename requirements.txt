@@ -3,3 +3,5 @@ rich
 Flask
 Werkzeug
 colorama
+fastapi
+uvicorn
