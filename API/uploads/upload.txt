@@ -1,0 +1,1 @@
+This upload folder will be used to upload the images which are coming from api requests.
