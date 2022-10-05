@@ -8,11 +8,16 @@ from tkinter import font
 from math import ceil
 from random import choice
 from time import sleep
+from turtle import color
 
 from PIL import Image, ImageChops
 from rich.console import Console
 from rich.terminal_theme import MONOKAI
 
+import pyfiglet
+from rich import print
+
+from webapp import ascii_art
 
 def scale_image(image, new_width=100):
     """Resizes an image preserving the aspect ratio."""
@@ -102,6 +107,9 @@ def handle_image_print(image_ascii, color, store):
         "Viruses",
     ]
     console = Console()
+
+    image_ascii = pyfiglet.figlet_format(image_ascii, font='digital')
+    print(f'[cyan]{image_ascii}[/cyan]')
 
     # To print beautiful dummy progress bar to the user
     with console.status("[bold green]Turning your image into ASCII art..."):
