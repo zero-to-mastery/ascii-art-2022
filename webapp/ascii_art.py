@@ -1,9 +1,15 @@
 import os
 import time
+# https://codeolives.com/2020/01/10/python-reference-module-in-parent-directory/
+import sys
+currentdir = os.path.dirname(os.path.realpath(__file__))
+parentdir = os.path.dirname(currentdir)
+sys.path.append(parentdir)
+########################################
 from flask import Flask, request, redirect, render_template
 from PIL import Image
 from werkzeug.utils import secure_filename
-from ..community_version import convert_image_to_ascii
+from community_version import convert_image_to_ascii
 from pathlib import Path
 from colorama import Fore, Back, Style
 IMG_FOLDER = os.path.join('static', "IMG")
