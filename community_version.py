@@ -1,7 +1,9 @@
 # Community Version
 import argparse
+import webbrowser
 
 from math import ceil
+from pathlib import Path
 from random import choice
 from time import sleep
 from sys import stdin
@@ -9,14 +11,13 @@ from io import BytesIO
 
 from PIL import Image, ImageChops
 from rich.console import Console
-from rich.terminal_theme import MONOKAI
 
 
 def scale_image(image, new_width=100):
     """Resizes an image preserving the aspect ratio."""
     (original_width, original_height) = image.size
     aspect_ratio = original_height / float(original_width)
-    new_height = int(aspect_ratio/2 * new_width)
+    new_height = int(aspect_ratio / 2 * new_width)
 
     new_image = image.resize((new_width, new_height))
     return new_image
@@ -44,12 +45,7 @@ def map_pixels_to_ascii_chars(image, range_width, ASCII_CHARS):
     return "".join(pixels_to_chars)
 
 
-def convert_image_to_ascii(
-    image,
-    range_width,
-    new_width=100,
-    ASCII_CHARS=None
-):
+def convert_image_to_ascii(image, range_width, new_width=100, ASCII_CHARS=None):
     # set default ascii character list
     if ASCII_CHARS == None:
         ASCII_CHARS = ["#", "?", "%", ".", "S", "+", ".", "*", ":", ",", "@"]
@@ -125,8 +121,10 @@ def inverse_image_color(image):
 def handle_image_conversion(image: Image, range_width, inverse_color, color=None):
     if inverse_color:
         image = inverse_image_color(image)
-        
-    image_ascii = convert_image_to_ascii(image, range_width=range_width, ASCII_CHARS=ASCII_CHARS)
+
+    image_ascii = convert_image_to_ascii(
+        image, range_width=range_width, ASCII_CHARS=ASCII_CHARS
+    )
     return image_ascii, color
 
 
@@ -164,18 +162,18 @@ def init_args_parser():
     parser.add_argument(
         "--store",
         dest="store_art",
-        type=str,
+        type=Path,
         help=(
             "Save the ASCII art of the image to a given path. E.g., --store output.svg. "
             "The result will be great if you choose a svg file extension."
-        )
+        ),
     )
     parser.add_argument(
         dest="stdin",
-        nargs='?',
+        nargs="?",
         type=argparse.FileType("rb"),
         help="Read image from stdin",
-        default=stdin
+        default=stdin,
     )
 
     args = parser.parse_args()
@@ -233,7 +231,7 @@ if __name__ == "__main__":
 
     image = None
     is_stdin = not args.stdin.isatty()
-    
+
     if is_stdin:
         buffer = args.stdin.buffer.read()
         image = Image.open(BytesIO(buffer))
@@ -241,17 +239,16 @@ if __name__ == "__main__":
         image_file_path = args.image_file_path
         if not image_file_path:
             image_file_path = input("Oops, you forgot to specify an Image path: ")
-        
+
         if image_file_path:
-            print(image_file_path)    
+            print(image_file_path)
             try:
                 image = Image.open(image_file_path)
             except Exception as e:
                 print(f"Unable to open image file {image_file_path}.")
                 print(e)
                 exit(1)
-        
-        
+
     if not image:
         raise Exception("No image was loaded")
 
@@ -264,17 +261,20 @@ if __name__ == "__main__":
 
     ### Save the image ###
     if args.store_art:
-        
+
         try:
-            if (args.store_art[-4:] == ".txt" ) or (args.store_art[-4:] == ".svg" ):
+            if args.store_art.suffix in (".txt", ".svg"):
                 with open(args.store_art, "wt") as report_file:
                     console = Console(style=color, file=report_file, record=True)
-                    if (args.store_art[-4:] == ".svg" ):
+                    if args.store_art.suffix == ".svg":
                         if color:
-                            file_name = args.store_art
                             console.print(image_ascii, style=color)
-                            console.save_svg(file_name, title="ASCII_conversion_Of_Image.py")
-                            webbrowser.open(f"file://{os.path.abspath(file_name)}", new=1)
+                            console.save_svg(
+                                args.store_art, title="ASCII_conversion_Of_Image.py"
+                            )
+                            webbrowser.open(
+                                f"file://{args.store_art.absolute()}", new=1
+                            )
                         else:
                             console.print(image_ascii)
                     else:
@@ -285,4 +285,7 @@ if __name__ == "__main__":
             else:
                 raise Exception("The file extension did not match as txt file!")
         except Exception as e:
-            print("\33[101mOops, I think you have choosed wrong file extension. Please give a svg file name e.g., output.txt \033[0m")
+            print(e)
+            print(
+                "\33[101mOops, I think you have choosed wrong file extension. Please give a svg file name e.g., output.txt \033[0m"
+            )
