@@ -5,3 +5,6 @@ Werkzeug
 colorama
 fastapi
 uvicorn
+python-multipart
+requests
+wget
