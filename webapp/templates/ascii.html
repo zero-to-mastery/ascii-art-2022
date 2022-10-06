@@ -1,6 +1,6 @@
 {% extends 'base.html' %} {% block body %}
 <div class="container">
-    <div class="row mt-4">
+    <div class="row mt-4 p-1">
         <h1 class="text-center fw-bold">Here is your ASCII art! A masterpiece, is it not?</h1>
     </div>
 </div>
@@ -8,12 +8,17 @@
 
 <div class="container">
     <div class="row">
+<<<<<<< HEAD
+        <div class="col-md-12 mt-3">
+            <pre class="text-center" style="border: 2px solid black; border-radius: 20px;"><p>{{ ascii }}</p></pre>
+=======
         <div class="col-md-12">
             <div class="text-center" style="border: 2px solid black; border-radius: 20px;">
                 <pre role="img" aria-label="ASCII ART">{{ ascii }}</pre>
             </div>
             <!-- <p>{{ ascii }}</p> -->
             <!-- <pre class="text-center" style="border: 2px solid black; border-radius: 20px;"></pre> -->
+>>>>>>> 180b4a61b7a1156d7dd1c53b1d88d5abb623732d
         </div>
     </div>
 </div>

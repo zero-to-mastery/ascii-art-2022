@@ -10,7 +10,6 @@ from io import BytesIO
 from PIL import Image, ImageChops
 from rich.console import Console
 
-
 def scale_image(image, new_width=100):
     """Resizes an image preserving the aspect ratio."""
     (original_width, original_height) = image.size
