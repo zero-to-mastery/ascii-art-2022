@@ -100,7 +100,7 @@ def gallery(file_path=""):
         img = Image.open(filepath)
         range_width = ceil((255 + 1) / len(CHAR_SET))
         ascii_ = convert_image_to_ascii(img, range_width, ASCII_CHARS=CHAR_SET)
-        return render_template("ascii.html", ascii=ascii_)
+        return render_template("ascii_2.html", ascii=ascii_)
 
     return render_template("gallery.html", imagelist=IMG_LIST)
 
