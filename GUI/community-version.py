@@ -127,10 +127,14 @@ def handle_image_print(image_ascii, color, store):
 
 def write_to_txtfile(txt):
     try:
-        with open("output.txt", "w") as text_file:
-            text_file.write(txt)
-            ms.showinfo("Success","Image converted to ASCII Art ! Check output.txt !")
-            root.destroy()
+        # with open("output.txt", "w") as text_file:
+        #     text_file.write(txt)
+        #     ms.showinfo("Success","Image converted to ASCII Art ! Check output.txt !")
+        #     root.destroy()
+
+        with open('output.txt', 'r') as f:
+            for line in f:
+                print(line.rstrip())
     except:
         return
 
