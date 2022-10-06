@@ -1,5 +1,5 @@
 {% extends 'base.html' %} {% block body %}
-  <h1>Recent Pictures</h1>
+  <h1 class="text-center">Recent Pictures</h1>
 
   <body>
     <style>
@@ -54,12 +54,26 @@
     .body{
       display: flex;
       flex-wrap: wrap;
+      justify-content: center;
     }
     </style>
     <form action="/gallery" method="post" enctype="multipart/form-data"></form>
     <div class="body">
       {% for i in imagelist %}
-        <div>
+        <div class="card m-3" style="width: 18rem;">
+          <img class="card-img-top" src="{{ url_for('static', filename=i)}}" alt="{{i.split('/')[-1]}}" height="240px"
+          width="300px">
+          <div class="card-body">
+            <h5 class="card-title">{{i.split('/')[-1]}}</h5>
+            <div class="d-flex">
+              <form method="post">
+                <input class="button-remove-gallery" type="submit" value="Remove" name="{{i}}"/>
+              </form>
+              <input class="button-convert-gallery ms-2" type="submit" value="Convert" id="{{i.split('/')[-1]}}" onclick="javascript:window.location.href='{{i}}'"/>
+            </div>
+          </div>
+        </div>
+        <!-- <div>
         <img
           src="{{ url_for('static', filename=i)}}"
           height="240px"
@@ -72,7 +86,7 @@
             <input class="button-remove-gallery" type="submit" value="Remove" name="{{i}}"/>
           </form>
           <input class="button-convert-gallery" type="submit" value="Convert" id="{{i.split('/')[-1]}}" onclick="javascript:window.location.href='{{i}}'"/>
-        </div>
+        </div> -->
       {% endfor %}
     </div>
   </form>
