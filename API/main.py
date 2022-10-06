@@ -74,7 +74,7 @@ def is_valid_url(url: str) -> bool:
 def download_image_from_url(url: str) -> Union[str, int]:
     response = requests.get(url=url)
 
-    if response.status_code == 200:
+    if response.status_code != 200:
         return CodingReturns["url_request_error"]
 
     try:
@@ -86,7 +86,7 @@ def download_image_from_url(url: str) -> Union[str, int]:
 
         # Open a local file and save it
         with open(filepath, "wb") as f:
-            shutil.copyfileobj(response.raw, f)
+            f.write(response.content)
 
         return filepath
     except Exception as e:
