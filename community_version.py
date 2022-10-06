@@ -9,7 +9,6 @@ from io import BytesIO
 
 from PIL import Image, ImageChops
 from rich.console import Console
-from rich.terminal_theme import MONOKAI
 
 def scale_image(image, new_width=100):
     """Resizes an image preserving the aspect ratio."""

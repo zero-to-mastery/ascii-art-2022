@@ -60,7 +60,7 @@ The options are endless and there is no wrong answer. This is all for fun, so tr
 
 > ⚠ Please do **not** make changes to the files in the example directory, These files should remain intact for future contributors to examine and compare with the community version! Pull requests with changes to these files will be closed.
 
-1. Examine the code in `community-version.py`, figure out what improvements your fellow community members have made.
+1. Examine the code in `community-version.py`, figure out what improvements your fellow community members have made (check out `FEATURES.md` for a list of existing features you can add to or improve).
 2. Make an improvement, it doesnt have to be elaborate
 3. Create a pull request
 4. [Tweet about making your first Hacktoberfest pull request](https://ctt.ac/UR9dA)
