@@ -95,8 +95,6 @@ def gallery(file_path=""):
     # lagging backslash is handled differently by different browsers
     if file_path != "main" and file_path != "main/":
         file = file_path
-        # TODO: secure_filename add underscore instead of spaces to filename, but that filename doesn't exist
-        # ex. 'twitter logo.png'
         filename = secure_filename(file.split("/")[-1])
         filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
         img = Image.open(filepath)
