@@ -98,7 +98,7 @@ def gallery(file_path=""):
         filename = secure_filename(file.split("/")[-1])
         filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
         img = Image.open(filepath)
-        range_width = ceil((255 + 1) // len(CHAR_SET))
+        range_width = ceil((255 + 1) / len(CHAR_SET))
         ascii_ = convert_image_to_ascii(img, range_width, ASCII_CHARS=CHAR_SET)
         return render_template("ascii.html", ascii=ascii_)
 
