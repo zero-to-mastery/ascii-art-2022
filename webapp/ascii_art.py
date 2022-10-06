@@ -1,5 +1,7 @@
+from math import ceil
 import os
 import time
+import json
 # https://codeolives.com/2020/01/10/python-reference-module-in-parent-directory/
 import sys
 currentdir = os.path.dirname(os.path.realpath(__file__))
@@ -12,6 +14,8 @@ from werkzeug.utils import secure_filename
 from community_version import convert_image_to_ascii
 from pathlib import Path
 from colorama import Fore, Back, Style
+from constants import ASCII_CHARS
+
 IMG_FOLDER = os.path.join('static', "IMG")
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
 
@@ -75,24 +79,35 @@ def upload_file():
     return render_template("upload.html")
 
 
-@app.route("/gallery/<path:file_path>")
+@app.route("/gallery/<path:file_path>", methods=['GET', 'POST'])
 def gallery(file_path=""):
     print(request.path)
+
+    if request.form.get('char_set'):
+        CHAR_SET = json.loads(request.form.get('char_set'))
+    else:
+        # use 1 as default if char_set is None
+        CHAR_SET = ASCII_CHARS[1]
+
     IMG_LIST = os.listdir('static/IMG')
     IMG_LIST = ['IMG/' + i for i in IMG_LIST]
+
+    # lagging backslash is handled differently by different browsers
     if file_path != "main" and file_path != "main/":
         file = file_path
+        # TODO: secure_filename add underscore instead of spaces to filename, but that filename doesn't exist
+        # ex. 'twitter logo.png'
         filename = secure_filename(file.split("/")[-1])
         filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
         img = Image.open(filepath)
-        ASCII_CHARS = ["#", "?", "%", ".", "S", "+", ".", "*", ":", ",", "@"]
-        range_width = 25
-        ascii_ = convert_image_to_ascii(img, range_width, ASCII_CHARS=ASCII_CHARS)
+        range_width = ceil((255 + 1) // len(CHAR_SET))
+        ascii_ = convert_image_to_ascii(img, range_width, ASCII_CHARS=CHAR_SET)
         return render_template("ascii.html", ascii=ascii_)
 
     return render_template("gallery.html", imagelist=IMG_LIST)
 
 
+# lagging backslash is handled differently by different browsers
 @app.route("/gallery/main/", methods=["POST"])
 @app.route("/gallery/main", methods=["POST"])
 def remove_file():
