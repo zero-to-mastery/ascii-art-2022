@@ -18,7 +18,7 @@ For mac or Linux users, use this command
 pip3 install -r requirements.txt
 ```
 
-*Note: If you nedd to install new libraries for more development for this API project, just add that libraries' names to the `requirements.txt` file.*
+*Note: If you need to install new libraries for more development for this API project, just add that libraries' names to the `requirements.txt` file.*
 
 ---
 

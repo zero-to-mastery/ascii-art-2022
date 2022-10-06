@@ -212,22 +212,21 @@ if __name__ == "__main__":
     # Check if the CHAR_SET is a list value
     if isinstance(CHAR_SET, list):
         ASCII_CHARS = CHAR_SET
-        # as the range width is based on the number of ASCII_CHARS we have
-        range_width = ceil((255 + 1) / len(ASCII_CHARS))
 
     elif isinstance(CHAR_SET, int):
         if CHAR_SET == 1:  # The original CHAR_SET from the example file
             ASCII_CHARS = ["#", "?", "%", ".", "S", "+", ".", "*", ":", ",", "@"]
-            range_width = 25
 
         elif CHAR_SET == 2:
             ASCII_CHARS = [" ", ".", "°", "*", "o", "O", "#", "@"]
-            range_width = 32
 
         else:
             raise Exception("Sorry, there are no CHAR_SET of the value you selected.")
     else:
         raise Exception("The value you chose is neither an integer nor a list.")
+
+    # as the range width is based on the number of ASCII_CHARS we have
+    range_width = ceil((255 + 1) / len(ASCII_CHARS))
 
     image = None
     is_stdin = not args.stdin.isatty()
