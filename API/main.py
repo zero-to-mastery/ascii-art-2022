@@ -1,7 +1,6 @@
 import os
 # Import required methods from upstream folders/files
 import sys
-from tkinter import E
 currentdir = os.path.dirname(os.path.realpath(__file__))
 parentdir  = os.path.dirname(currentdir)
 sys.path.append(parentdir)
