@@ -264,14 +264,24 @@ if __name__ == "__main__":
 
     ### Save the image ###
     if args.store_art:
+        
         try:
-            if args.store_art[-4:] == ".txt":
+            if (args.store_art[-4:] == ".txt" ) or (args.store_art[-4:] == ".svg" ):
                 with open(args.store_art, "wt") as report_file:
                     console = Console(style=color, file=report_file, record=True)
-                    if color:
-                        console.print(image_ascii, style=color)
+                    if (args.store_art[-4:] == ".svg" ):
+                        if color:
+                            file_name = args.store_art
+                            console.print(image_ascii, style=color)
+                            console.save_svg(file_name, title="ASCII_conversion_Of_Image.py")
+                            webbrowser.open(f"file://{os.path.abspath(file_name)}", new=1)
+                        else:
+                            console.print(image_ascii)
                     else:
-                        console.print(image_ascii)
+                        if color:
+                            console.print(image_ascii, style=color)
+                        else:
+                            console.print(image_ascii)
             else:
                 raise Exception("The file extension did not match as txt file!")
         except Exception as e:
