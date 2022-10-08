@@ -10,3 +10,5 @@ requests
 wget
 prompt_toolkit
 pyfiglet
+opencv-python
+ffpyplayer
