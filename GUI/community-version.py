@@ -1,5 +1,6 @@
 # Community Version
 import argparse
+import pyfiglet
 
 import tkinter.messagebox as ms
 from tkinter import *
@@ -12,6 +13,7 @@ from time import sleep
 from PIL import Image, ImageChops
 from rich.console import Console
 from rich.terminal_theme import MONOKAI
+
 
 
 def scale_image(image, new_width=100):
@@ -101,6 +103,7 @@ def handle_image_print(image_ascii, color, store):
         "ROMs",
         "Viruses",
     ]
+
     console = Console()
 
     # To print beautiful dummy progress bar to the user
@@ -111,7 +114,7 @@ def handle_image_print(image_ascii, color, store):
         sleep(1)
 
         # print the ASCII art to the console.
-        console.log("[bold green]Here we go...!")
+        console.print("[bold green]Here we go...!")
         if color:
             return image_ascii
         else:
@@ -262,10 +265,11 @@ def handle_image(image_file_path):
             else:
                 raise ms.showerror("The file extension did not match as txt file!")
         except Exception as e:
-            ms.showerror("\33[101mOops, I think you have choosed wrong file extension. Please give a svg file name e.g., output.txt \033[0m")
+            ms.showerror("\33[101mOops, I think you have chosen an incorrect file extension. Hint: Please enter name of SVG. e.g., output.txt \033[0m")
     return capture
 
 def main():
+    print(pyfiglet.figlet_format("Welcome to ASCII ART Generator"))
     global entry1
     image_file_path = entry1.get()
     ascii_img = handle_image(image_file_path)

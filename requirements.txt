@@ -9,3 +9,4 @@ python-multipart
 requests
 wget
 prompt_toolkit
+pyfiglet
