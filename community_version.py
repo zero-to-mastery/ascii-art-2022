@@ -10,6 +10,8 @@ from sys import stdin
 from io import BytesIO
 
 from PIL import Image, ImageChops
+from prompt_toolkit import prompt
+from prompt_toolkit.completion import PathCompleter
 from rich.console import Console
 
 
@@ -237,7 +239,8 @@ if __name__ == "__main__":
     else:
         image_file_path = args.image_file_path
         if not image_file_path:
-            image_file_path = input("Oops, you forgot to specify an Image path: ")
+            completer = PathCompleter()
+            image_file_path = prompt("Oops, you forgot to specify an Image path: ", completer=completer)
 
         if image_file_path:
             print(image_file_path)

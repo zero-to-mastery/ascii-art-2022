@@ -39,12 +39,10 @@ In order to get started on this project, it is recommended that you watch the se
    - The above 2 commands will synchronize your forked version of the project with the actual repository.
 
 4. Make sure you have Python 3 installed on your machine
-5. Install [Pillow library](https://pillow.readthedocs.io/en/stable/installation.html)
-6. Install [rich library](https://github.com/Textualize/rich)
-   - you can use the command `pip3 install -r requirements.txt`
-7. Run the example code with the command: `python3 example/make_art.py example/ztm-logo.png`
-8. Stare with amazement 😮
-9. Start chatting with other ZTM students in the #hacktoberfest-2022 channel on our Discord to get help, work together, and share your contributions!
+5. Install necessary dependencies by running `pip3 install -r requirements.txt`.
+6. Run the example code with the command: `python3 example/make_art.py example/ztm-logo.png`
+7. Stare with amazement 😮
+8.  Start chatting with other ZTM students in the #hacktoberfest-2022 channel on our Discord to get help, work together, and share your contributions!
 
 ### ❇️ Run with Docker
 
