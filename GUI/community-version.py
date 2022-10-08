@@ -123,7 +123,6 @@ def handle_image_print(image_ascii, color, store):
 def write_to_txtfile(txt):
     try:
         with open("output.txt", "w") as text_file:
-            print(pyfiglet.figlet_format("Welcome to ASCII ART Generator"))
             text_file.write(txt)
             ms.showinfo("Success","Image converted to ASCII Art ! Check output.txt !")
             root.destroy()
@@ -270,11 +269,11 @@ def handle_image(image_file_path):
     return capture
 
 def main():
+    print(pyfiglet.figlet_format("Welcome to ASCII ART Generator"))
     global entry1
     image_file_path = entry1.get()
     ascii_img = handle_image(image_file_path)
-    # print(ascii_img)
-    print(pyfiglet.figlet_format(ascii_img))
+    print(ascii_img)
     write_to_txtfile(ascii_img)
 
 root=Tk()
