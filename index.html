@@ -45,25 +45,48 @@
   background-color:aliceblue; 
   margin-top: 5%; 
   height:inherit;
-
 }
+
+button{    
+  background-color:#3b4d46;
+  color: #fff;
+  border:none; 
+  border-radius:5px; 
+  padding:5px;
+}
+
+button:hover{    
+  background-color:#ff0000;
+}
+
 
 </style>
   </head>
 <body style=" background-color: aquamarine;">
 <label for="Upload a PNG image"></label><input type="file" id="file-upload">
-<label for="CHAR_SET">CHAR_SET to use:</label><input type="number" id="CHAR_SET" name="CHAR_SET" min="1" max="2">
-<label style="margin-left: 5rem;">Please wait for few seconds for Pyscript to load.</label>
+<button id="reset" style="margin-left: 2rem;">Reset</button>
+<label for="CHAR_SET" style="margin-left: 5rem;">CHAR_SET to use:</label><input type="number" id="CHAR_SET" name="CHAR_SET" min="1" max="2", value="1">
+<label style="margin-left: 10rem;">Please wait for few seconds for Pyscript to load.</label>
 
 
 <div id="outer-div" style="margin-top: 3%;">
 <div class="split left">
-  <div class="inner-div"><pre id="ascii-output" style="font-size: 5px;"></pre></div>
+  <div class="inner-div"><pre id="ascii-output" style="font-size:5px;"></pre></div>
 </div>
 
 <div class="split right">
   <div class="inner-div" id="image" style="display:auto;"></div>
 </div>
 </div>
+
+
+  <script>
+    const reset = document.getElementById('reset');
+    reset.addEventListener('click', function handleClick(event) {
+      event.preventDefault();
+      const input = document.getElementById('file-upload');
+      input.value = '';
+    });
+      </script>
   <py-script src="./github_pages.py"></py-script>
 </body>
