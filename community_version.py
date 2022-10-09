@@ -47,7 +47,7 @@ def map_pixels_to_ascii_chars(image, range_width, ASCII_CHARS):
     return "".join(pixels_to_chars)
 
 
-def convert_image_to_ascii(image, range_width, new_width=100, ASCII_CHARS=None):
+def convert_image_to_ascii(image, range_width, new_width=100, ASCII_CHARS=None, fix_aspect_ratio=False):
     # set default ascii character list
     if ASCII_CHARS == None:
         ASCII_CHARS = ["#", "?", "%", ".", "S", "+", ".", "*", ":", ",", "@"]
@@ -62,6 +62,15 @@ def convert_image_to_ascii(image, range_width, new_width=100, ASCII_CHARS=None):
         pixels_to_chars[index : index + new_width]
         for index in range(0, len_pixels_to_chars, new_width)
     ]
+
+    if fix_aspect_ratio:
+        # The generated ascii image is approximately 1.35 times
+        # larger than the original image
+        # So, we will drop one line after every 3 lines
+        image_ascii = [
+            char for index, char in enumerate(image_ascii) 
+            if index % 4 != 0
+        ]
 
     return "\n".join(image_ascii)
 
