@@ -115,6 +115,20 @@ def remove_file():
     IMG_LIST = ['IMG/' + i for i in IMG_LIST]
     return render_template("gallery.html", imagelist=IMG_LIST)
 
+@app.route("/toggle_darkmode", methods=["GET"])
+def toggle_darkmode():
+    # If Cookie does not exist, set to False before continuing
+    if request.cookies.get('darkmode') == None:
+        current_state = "False"
+    else:
+        current_state = request.cookies.get('darkmode')
+
+    # Toggle string values
+    current_state = "True" if current_state == "False" else "False"
+
+    response = app.make_response("There should be a cookie")
+    response.set_cookie("darkmode", current_state)
+    return response
 
 if __name__ == "__main__":
     app.run(debug=True)
