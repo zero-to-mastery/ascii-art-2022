@@ -68,7 +68,7 @@ def upload_file():
 
             ASCII_CHARS = ["#", "?", "%", ".", "S", "+", ".", "*", ":", ",", "@"]
             range_width = 25
-            ascii_ = convert_image_to_ascii(img, range_width, ASCII_CHARS=ASCII_CHARS)
+            ascii_ = convert_image_to_ascii(img, range_width, ASCII_CHARS=ASCII_CHARS, fix_aspect_ratio=True)
             file.close()
 
             try:
@@ -99,7 +99,7 @@ def gallery(file_path=""):
         filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
         img = Image.open(filepath)
         range_width = ceil((255 + 1) / len(CHAR_SET))
-        ascii_ = convert_image_to_ascii(img, range_width, ASCII_CHARS=CHAR_SET)
+        ascii_ = convert_image_to_ascii(img, range_width, ASCII_CHARS=CHAR_SET, fix_aspect_ratio=True)
         return render_template("ascii_2.html", ascii=ascii_)
 
     return render_template("gallery.html", imagelist=IMG_LIST)
