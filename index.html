@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ZTM ASCII Art Generator: The Web App!</title>
+    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+    <py-env>
+      - Pillow
+  </py-env>
+  <style>
+  .split {
+    height: 100%;
+    width: 50%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    overflow-x: hidden;
+    display: inline-block;
+    margin-top: inherit;
+  }
+  
+  .left {
+  left: 0;
+  background-color:beige;
+ }
+
+ .right {
+  right: 0;
+  background-color:rgb(251, 228, 199);
+ }
+
+ .inner-div {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.ascii-output{
+  font-weight:bold; 
+  background-color:aliceblue; 
+  margin-top: 5%; 
+  height:inherit;
+  font-size: 5px;
+
+}
+
+</style>
+  </head>
+<body style=" background-color: aquamarine;">
+<label for="Upload a PNG image"></label><input type="file" id="file-upload">
+<label for="CHAR_SET">CHAR_SET to use:</label><input type="number" id="CHAR_SET" name="CHAR_SET" min="1" max="2">
+<label style="margin-left: 5rem;">Please wait for few seconds for Pyscript to load.</label>
+
+
+<div id="outer-div" style="margin-top: 3%;">
+<div class="split left">
+  <div class="inner-div"><pre id="ascii-output"></pre></div>
+</div>
+
+<div class="split right">
+  <div class="inner-div" id="image" style="display:auto;"></div>
+</div>
+</div>
+  <py-script src="./github_pages.py"></py-script>
+</body>
