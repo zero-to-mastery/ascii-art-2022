@@ -4,57 +4,65 @@
   <body>
     <style>
     .button-remove-gallery{
-      background-color: #dd3e0e;
-      color: white;
-      font-weight: 500;
-      border: none;
-      width: 80px;
-      height: 40px;
-      padding: 10px;
-      border-radius: 10px;
-      vertical-align: bottom;
-      display: block;
-    }
-    .button-remove-gallery:hover{
       background-color: #c43a10;
       color: white;
       font-weight: 500;
       border: none;
-      width: 80px;
+      width: 90px;
       height: 40px;
       padding: 10px;
-      border-radius: 10px;
-      vertical-align: bottom;
-      display: block;
+      border-radius: 5px;
+      text-align: center;
+      padding: 0px;
+    }
+    .button-remove-gallery:hover{
+      background-color: white;
+      color: #c43a10;
+      font-weight: 500;
+      border: solid;
+      border-color: #c43a10;
+      width: 90px;
+      height: 40px;
+      padding: 0px;
+      border-radius: 5px;
     }
     .button-convert-gallery{
       background-color: #198754;
       color: white;
       font-weight: 500;
       border: none;
-      width: 80px;
+      width: 90px;
       height: 40px;
       padding: 10px;
-      border-radius: 10px;
-      vertical-align: bottom;
-      display: block;
+      border-radius: 5px;
+      text-align: center;
+      padding: 0px;
     }
     .button-convert-gallery:hover{
-      background-color: #146c43;
-      color: white;
+      background-color: white;
+      color: #146c43;
       font-weight: 500;
-      border: none;
-      width: 80px;
+      border: solid;
+      border-color: #146c43;
+      width: 90px;
       height: 40px;
-      padding: 10px;
-      border-radius: 10px;
-      vertical-align: bottom;
-      display: block;
+      padding: 0px;
+      border-radius: 5px;
+      
     }
     .body{
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
+   }
+    .card.m-3:hover{
+border-top: solid;
+border-left: solid;
+border-color: rgb(76, 76, 76);
+box-shadow: 8px 8px rgb(76, 76, 76);
+    }
+    .card-title{
+      font-family: sans-serif;
     }
     </style>
     <form action="/gallery" method="post" enctype="multipart/form-data"></form>
