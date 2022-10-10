@@ -22,11 +22,50 @@ def scale_image(image, new_width=100):
     new_height = int(aspect_ratio / 2 * new_width)
 
     new_image = image.resize((new_width, new_height))
+    #Small size image won't be look good do creating images with minimum 500*500
+    if(CHAR_SET == 3):
+        new_width = 500
+        new_height = 500
+        new_image = image.resize((new_width, new_height))
     return new_image
 
 
 def convert_to_grayscale(image):
     return image.convert("L")
+
+def map_pixels_to_color(image, range_width,color,new_width=500,new_height=500):
+    b = (0,0,0)
+    y = (255,255,0)
+    #creating new image with two different colors. Mixing more colors makes image blur.
+    ASCII_CHARS = [b,y,b,y]
+
+    image = scale_image(image)
+    image = convert_to_grayscale(image)
+    pixels_in_image = list(image.getdata())
+
+    pixels_to_chars = [
+        ASCII_CHARS[int(pixel_value / range_width)] for pixel_value in pixels_in_image
+    ]
+    #creating matrix to write new image with colors
+    arr_2d = []
+    arr3 = []
+    temp = 0
+    for j in range(0,new_height):
+        start_value = temp 
+        end_value = new_width*(j+1)
+        for i in range(start_value,end_value):
+            arr3.append(pixels_to_chars[i])
+        #print(arr_2d)
+        arr_2d.append(arr3)
+        arr3 = []
+        temp = end_value
+    #Re-writing  pixel
+    smiley = Image.new("RGB", (new_width,new_height))
+    for row in range(500):
+        for col in range(new_width):
+            smiley.putpixel((col, row), arr_2d[row][col])
+            #smiley.save('test.jpg')
+    return smiley.show()
 
 
 def map_pixels_to_ascii_chars(image, range_width, ASCII_CHARS):
@@ -118,10 +157,13 @@ def handle_image_print(image_ascii, color, store):
 
         # print the ASCII art to the console.
         console.log("[bold green]Here we go...!")
-        if color:
-            console.print(image_ascii, style=color)
+        if CHAR_SET == 3:
+            map_pixels_to_color(image, range_width=range_width, color=args.color_ascii)
         else:
-            console.print(image_ascii)
+            if color:
+                console.print(image_ascii, style=color)
+            else:
+                console.print(image_ascii)
 
 
 def inverse_image_color(image):
@@ -231,6 +273,9 @@ if __name__ == "__main__":
         elif CHAR_SET == 2:
             ASCII_CHARS = [" ", ".", "°", "*", "o", "O", "#", "@"]
 
+        elif CHAR_SET == 3:
+            ASCII_CHARS = ["b","w","b"]
+
         else:
             raise Exception("Sorry, there are no CHAR_SET of the value you selected.")
     else:
@@ -264,11 +309,16 @@ if __name__ == "__main__":
         raise Exception("No image was loaded")
 
     # convert the image to ASCII art
-    image_ascii, color = handle_image_conversion(
-        image, range_width, args.inverse_image, args.color_ascii
-    )
+    if CHAR_SET == 3:
+        capture = handle_image_print(image, color=args.color_ascii, store=args.store_art)
+        #map_pixels_to_color(image, range_width=range_width, color=args.color_ascii)
+    else:
+        image_ascii, color = handle_image_conversion(
+            image, range_width, args.inverse_image, args.color_ascii
+        )
     # display the ASCII art to the console
-    capture = handle_image_print(image_ascii, color, args.store_art)
+        capture = handle_image_print(image_ascii, color, args.store_art)
+
 
     ### Save the image ###
     if args.store_art:
