@@ -31,12 +31,12 @@ def open_file():
     if not filepath:
         return
 
-    txt_ascii_art.config(state='normal')
+    txt_ascii_art.config(state="normal")
     txt_ascii_art.delete("1.0", END)
     img = Image.open(filepath)
-    ascii_art = convert_image_to_ascii(img, RANGE_WIDTH, ASCII_CHARS=ASCII_CHARS)
+    ascii_art = convert_image_to_ascii(img, RANGE_WIDTH, ascii_chars=ASCII_CHARS)
     txt_ascii_art.insert(END, ascii_art)
-    txt_ascii_art.config(state='disabled')
+    txt_ascii_art.config(state="disabled")
     filename = filepath.split("/")[-1]
     window.title(f"Image to ASCII converter - {filename}")
 
@@ -74,7 +74,7 @@ window = init_window()
 window.rowconfigure(0, minsize=800, weight=1)
 window.columnconfigure(1, minsize=800, weight=1)
 
-txt_ascii_art = Text(window, state='disabled')
+txt_ascii_art = Text(window, state="disabled")
 frm_buttons = Frame(window, relief=RAISED, bd=2)
 btn_open = Button(window, text="Open", command=open_file)
 btn_save = Button(frm_buttons, text="Save As...", command=save_file)
