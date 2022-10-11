@@ -142,13 +142,16 @@ def hype(console):
         sleep(1)
     console.log("[bold green]Here we go...!")
 
+def welcome_message(console):
+    console.print("[bold yellow] Welcome to ASCII ART Generator!")
 
 def handle_black_yellow(image):
     map_pixels_to_color(image)
 
-
 def handle_image_print(image_ascii, color=None):
     console = Console()
+
+    welcome_message(console)
 
     hype(console)
 
