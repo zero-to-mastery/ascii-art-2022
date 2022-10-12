@@ -1,103 +1,35 @@
-{% extends 'base.html' %} {% block body %}
-  <h1 class="text-center">Recent Pictures</h1>
+{% extends 'base.html' %}
 
-  <body>
-    <style>
-    .button-remove-gallery{
-      background-color: #c43a10;
-      color: white;
-      font-weight: 500;
-      border: none;
-      width: 90px;
-      height: 40px;
-      padding: 10px;
-      border-radius: 5px;
-      text-align: center;
-      padding: 0px;
-    }
-    .button-remove-gallery:hover{
-      background-color: white;
-      color: #c43a10;
-      font-weight: 500;
-      border: solid;
-      border-color: #c43a10;
-      width: 90px;
-      height: 40px;
-      padding: 0px;
-      border-radius: 5px;
-    }
-    .button-convert-gallery{
-      background-color: #198754;
-      color: white;
-      font-weight: 500;
-      border: none;
-      width: 90px;
-      height: 40px;
-      padding: 10px;
-      border-radius: 5px;
-      text-align: center;
-      padding: 0px;
-    }
-    .button-convert-gallery:hover{
-      background-color: white;
-      color: #146c43;
-      font-weight: 500;
-      border: solid;
-      border-color: #146c43;
-      width: 90px;
-      height: 40px;
-      padding: 0px;
-      border-radius: 5px;
-      
-    }
-    .body{
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-   }
-    .card.m-3:hover{
-border-top: solid;
-border-left: solid;
-border-color: rgb(76, 76, 76);
-box-shadow: 8px 8px rgb(76, 76, 76);
-    }
-    .card-title{
-      font-family: sans-serif;
-    }
-    </style>
-    <form action="/gallery" method="post" enctype="multipart/form-data"></form>
-    <div class="body">
-      {% for i in imagelist %}
-        <div class="card m-3" style="width: 18rem;">
-          <img class="card-img-top" src="{{ url_for('static', filename=i)}}" alt="{{i.split('/')[-1]}}" height="240px"
-          width="300px">
-          <div class="card-body">
-            <h5 class="card-title">{{i.split('/')[-1]}}</h5>
-            <div class="d-flex">
-              <form method="post">
-                <input class="button-remove-gallery" type="submit" value="Remove" name="{{i}}"/>
-              </form>
-              <input class="button-convert-gallery ms-2" type="submit" value="Convert" id="{{i.split('/')[-1]}}" onclick="javascript:window.location.href='{{i}}'"/>
-            </div>
+{% block content %}
+
+<div class="container">
+  <h1 class="heading">Recent Pictures</h1>
+
+  <div class="gallery-images">
+    
+    {% for image in images %}
+      <div class="image">
+        <img src="../static/IMG/{{image}}" alt="">
+        <div class="info">
+          <div class="name">{{image[:20]}}</div>
+          <div class="actions">
+            <a href="/gallery/{{image}}">
+              <img src="https://img.icons8.com/material-outlined/24/228BE6/visible--v1.png" />
+            </a>
+
+            <a href="#" class="delete-btn" data-name="{{image}}">
+              <img src="https://img.icons8.com/material-outlined/24/FA5252/trash--v1.png" />
+            </a>
           </div>
         </div>
-        <!-- <div>
-        <img
-          src="{{ url_for('static', filename=i)}}"
-          height="240px"
-          width="300px"
-        /><br>
-        {{i.split('/')[-1]}}
-        </div>
-        <div>
-          <form method="post">
-            <input class="button-remove-gallery" type="submit" value="Remove" name="{{i}}"/>
-          </form>
-          <input class="button-convert-gallery" type="submit" value="Convert" id="{{i.split('/')[-1]}}" onclick="javascript:window.location.href='{{i}}'"/>
-        </div> -->
-      {% endfor %}
-    </div>
-  </form>
-  </body>
-</html>
-{%endblock%}
+      </div>
+    {% endfor %}
+
+    <form method="post" action="/delete" id="deleteForm">
+      <input type="hidden" name="filename" id="imageId" value="" />
+    </form>
+
+  </div>
+</div>
+
+{% endblock %}

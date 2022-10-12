@@ -23,7 +23,8 @@ ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
 
 app = Flask(__name__)
 
-app.config["MAX_CONTENT_LENGTH"] = 16 * 1024 * 1024  # File can not be largr than 16 Mb
+app.config["MAX_CONTENT_LENGTH"] = 16 * 1024 * \
+    1024  # File can not be largr than 16 Mb
 app.config["UPLOAD_FOLDER"] = IMG_FOLDER
 
 
@@ -51,18 +52,24 @@ def check_for_folder():
 check_for_folder()
 
 
-@app.route("/", methods=["GET", "POST"])
-def upload_file():
+@app.route("/", methods=["GET"])
+def home():
+    return render_template("home.html", template_name='home')
+
+@app.route("/generate", methods=["POST"])
+def generate_art():
     if request.method == "POST":
         # check if the post request has the file part
         if "file" not in request.files:
-            return redirect(request.url)
+            return redirect('/')
+
         file = request.files["file"]
+
         # If the user does not select a file, the browser submits an
         # empty file without a filename.
         if file.filename == "":
             return render_template(
-                "upload.html",
+                "home.html",
                 file_error="There is an error about the filename or have not passed the file. Please try again!",
             )
 
@@ -70,80 +77,40 @@ def upload_file():
             filename = secure_filename(file.filename)
             filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
             file.save(filepath)
-            img = Image.open(filepath)
+        
+        # redirect to gallery page
+        return redirect(f'/gallery/{filename}')
 
-            ascii_chars = ["#", "?", "%", ".", "S", "+", ".", "*", ":", ",", "@"]
-            range_width = 25
-            ascii_ = convert_image_to_ascii(
-                img, ascii_chars, range_width, fix_aspect_ratio=True
-            )
-            file.close()
-
-            try:
-                return render_template("ascii.html", ascii=ascii_)
-            except Exception as e:
-                return render_template(
-                    "upload.html", error="Some error occurred! Try again"
-                )
-
-    return render_template("home.html")
-
-
-@app.route("/gallery/<path:file_path>", methods=["GET", "POST"])
-def gallery(file_path=""):
-    print(request.path)
-
-    if request.form.get("char_set"):
-        CHAR_SET = json.loads(request.form.get("char_set"))
-    else:
-        # use 1 as default if char_set is None
-        CHAR_SET = ASCII_CHARS[1]
-
-    IMG_LIST = os.listdir("static/IMG")
-    IMG_LIST = ["IMG/" + i for i in IMG_LIST if allowed_file(i)]
-
-    # lagging backslash is handled differently by different browsers
-    if file_path != "main" and file_path != "main/":
-        file = file_path
-        filename = secure_filename(file.split("/")[-1])
+        
+@app.route("/gallery/<string:filename>", methods=["GET"])
+@app.route("/gallery/", methods=["GET"])
+@app.route("/gallery", methods=["GET"])
+def show_art_or_gallery(filename=None):
+    if filename is not None:
         filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
-        img = Image.open(filepath)
-        range_width = ceil((255 + 1) / len(CHAR_SET))
-        ascii_ = convert_image_to_ascii(
-            img, CHAR_SET, range_width, fix_aspect_ratio=True
-        )
-        return render_template("ascii_2.html", ascii=ascii_)
-
-    return render_template("gallery.html", imagelist=IMG_LIST)
-
-
-# lagging backslash is handled differently by different browsers
-@app.route("/gallery/main/", methods=["POST"])
-@app.route("/gallery/main", methods=["POST"])
-def remove_file():
-    for file in request.form:
-        os.remove(os.path.join("static", file))
-    IMG_LIST = os.listdir("static/IMG")
     
-    IMG_LIST = ["IMG/" + i for i in IMG_LIST if allowed_file(i)]
-    return render_template("gallery.html", imagelist=IMG_LIST)
+        img = Image.open(filepath)
 
+        ascii_chars = ["#", "?", "%", ".",
+                        "S", "+", ".", "*", ":", ",", "@"]
+        range_width = 25
+        ascii_art = convert_image_to_ascii(
+            img, ascii_chars, range_width, fix_aspect_ratio=True
+        )
 
-@app.route("/toggle_darkmode", methods=["GET"])
-def toggle_darkmode():
-    # If Cookie does not exist, set to False before continuing
-    if request.cookies.get("darkmode") == None:
-        current_state = "False"
+        return render_template("art.html", ascii_art=ascii_art, template_name="art")
     else:
-        current_state = request.cookies.get("darkmode")
+        images = [x for x in os.listdir("static/IMG") if allowed_file(x)]
+        return render_template("gallery.html", images=images, template_name="gallery")
 
-    # Toggle string values
-    current_state = "True" if current_state == "False" else "False"
 
-    response = app.make_response("There should be a cookie")
-    response.set_cookie("darkmode", current_state)
-    return response
-
+@app.route("/delete", methods=["POST"])
+def delete_file():
+    if request.method == "POST":
+        filename = request.form.get("filename")
+        filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+        os.remove(filepath)
+        return redirect("/gallery")
 
 if __name__ == "__main__":
     app.run(debug=True)
