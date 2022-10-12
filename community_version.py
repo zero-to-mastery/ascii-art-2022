@@ -101,20 +101,19 @@ def convert_image_to_ascii(
 
     return "\n".join(image_ascii)
 
-def single_ascii_replacement(image_ascii,singleAsciiChar):
-    #Creating list for ASCII character and their count
+
+def single_ascii_replacement(image_ascii, single_ascii_char):
+    # Creating list for ASCII character and their count
     asc_count = []
-    for asc_char in ["%","?","+","°","@","O","o","#","."":",",","*"," "]:
-        asc_count.append((asc_char , image_ascii.count(asc_char)))
-    asc_count.sort(key = lambda x:x[1] ,reverse=True)
-    chr=asc_count[0][0]
-    
-    #Replacing highest ASCII character with blank
+    for asc_char in ["%", "?", "+", "°", "@", "O", "o", "#", "." ":", ",", "*", " "]:
+        asc_count.append((asc_char, image_ascii.count(asc_char)))
+    asc_count.sort(key=lambda x: x[1], reverse=True)
+    chr = asc_count[0][0]
+
+    # Replacing highest ASCII character with blank
     new_image_re = re.sub(rf"{chr}", " ", image_ascii)
-    #Replacing ASCII characters with given single character
-    new_image = re.sub(r"[!S%?+°@Oo#.:,*]", singleAsciiChar, new_image_re)
-    image_ascii = new_image
-    return image_ascii
+    # Replacing ASCII characters with given single character
+    return re.sub(r"[!S%?+°@Oo#.:,*]", single_ascii_char, new_image_re)
 
 
 def hype(console):
@@ -158,11 +157,14 @@ def hype(console):
         sleep(1)
     console.log("[bold green]Here we go...!")
 
+
 def welcome_message(console):
     console.print("[bold yellow] Welcome to ASCII ART Generator!")
 
+
 def handle_black_yellow(image):
     map_pixels_to_color(image)
+
 
 def handle_image_print(image_ascii, color=None):
     console = Console()
@@ -255,11 +257,13 @@ def init_args_parser():
     )
 
     parser.add_argument(
-        "--singleAsciiChar",
-        dest="singleAsciiChar",
+        "--single-ascii_char",
+        dest="single_ascii_char",
         type=str,
-        help="A single ASCII character  to display the image. "
-        "It usages existing default preset character to convert it into single.",
+        help=(
+            "A single ASCII character to display the image. "
+            "It uses existing default preset character to convert it into single."
+        ),
     )
 
     return parser.parse_args()
@@ -359,8 +363,8 @@ def main():
     image_ascii = handle_image_conversion(
         image, range_width, ascii_chars, args.inverse_image
     )
-    if args.singleAsciiChar:
-        image_ascii = single_ascii_replacement(image_ascii,args.singleAsciiChar)
+    if args.single_ascii_char:
+        image_ascii = single_ascii_replacement(image_ascii, args.single_ascii_char)
 
     # display the ASCII art to the console
     handle_image_print(image_ascii, args.color)
