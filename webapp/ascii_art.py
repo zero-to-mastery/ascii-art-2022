@@ -100,7 +100,7 @@ def gallery(file_path=""):
         CHAR_SET = ASCII_CHARS[1]
 
     IMG_LIST = os.listdir("static/IMG")
-    IMG_LIST = ["IMG/" + i for i in IMG_LIST]
+    IMG_LIST = ["IMG/" + i for i in IMG_LIST if allowed_file(i)]
 
     # lagging backslash is handled differently by different browsers
     if file_path != "main" and file_path != "main/":
@@ -124,7 +124,8 @@ def remove_file():
     for file in request.form:
         os.remove(os.path.join("static", file))
     IMG_LIST = os.listdir("static/IMG")
-    IMG_LIST = ["IMG/" + i for i in IMG_LIST]
+    
+    IMG_LIST = ["IMG/" + i for i in IMG_LIST if allowed_file(i)]
     return render_template("gallery.html", imagelist=IMG_LIST)
 
 
