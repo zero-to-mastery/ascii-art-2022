@@ -1,6 +1,7 @@
 # Community Version
 import argparse
 import webbrowser
+import re
 
 from math import ceil
 from pathlib import Path
@@ -99,6 +100,21 @@ def convert_image_to_ascii(
         image_ascii = [char for index, char in enumerate(image_ascii) if index % 4 != 0]
 
     return "\n".join(image_ascii)
+
+def single_ascii_replacement(image_ascii,singleAsciiChar):
+    #Creating list for ASCII character and their count
+    asc_count = []
+    for asc_char in ["%","?","+","°","@","O","o","#","."":",",","*"," "]:
+        asc_count.append((asc_char , image_ascii.count(asc_char)))
+    asc_count.sort(key = lambda x:x[1] ,reverse=True)
+    chr=asc_count[0][0]
+    
+    #Replacing highest ASCII character with blank
+    new_image_re = re.sub(rf"{chr}", " ", image_ascii)
+    #Replacing ASCII characters with given single character
+    new_image = re.sub(r"[!S%?+°@Oo#.:,*]", singleAsciiChar, new_image_re)
+    image_ascii = new_image
+    return image_ascii
 
 
 def hype(console):
@@ -238,14 +254,22 @@ def init_args_parser():
         ),
     )
 
+    parser.add_argument(
+        "--singleAsciiChar",
+        dest="singleAsciiChar",
+        type=str,
+        help="A single ASCII character  to display the image. "
+        "It usages existing default preset character to convert it into single.",
+    )
+
     return parser.parse_args()
 
 
 def get_predefined_charset(preset=1):
     if preset == 1:
-        return ["#", "?", "%", ".", "S", "+", ".", "*", ":", ",", "@"]
-    if preset == 2:
         return [" ", ".", "°", "*", "o", "O", "#", "@"]
+    if preset == 2:
+        return ["#", "?", "%", ".", "S", "+", ".", "*", ":", ",", "@"]
     raise ValueError("Preset character sets are either 1 or 2.")
 
 
@@ -335,6 +359,9 @@ def main():
     image_ascii = handle_image_conversion(
         image, range_width, ascii_chars, args.inverse_image
     )
+    if args.singleAsciiChar:
+        image_ascii = single_ascii_replacement(image_ascii,args.singleAsciiChar)
+
     # display the ASCII art to the console
     handle_image_print(image_ascii, args.color)
 
