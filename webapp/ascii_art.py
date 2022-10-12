@@ -86,7 +86,7 @@ def upload_file():
                     "upload.html", error="Some error occurred! Try again"
                 )
 
-    return render_template("upload.html")
+    return render_template("home.html")
 
 
 @app.route("/gallery/<path:file_path>", methods=["GET", "POST"])
