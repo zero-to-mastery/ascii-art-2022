@@ -1,0 +1,20 @@
+{% extends 'base-v2.html' %}
+
+{% block content %}
+<style>
+
+
+</style>
+<div class="container">
+    <h1 class="heading">Let's do some magic with text!</h1>
+    <div class="settings">
+        <div class="input-text field">
+            <input type="text" name="text" id="text" class="input" placeholder="Start writing to see the magic...">
+        </div>
+    </div>
+    <pre class="ascii-art text-art">{{text_art}}</pre>
+
+</div>
+
+
+{% endblock %}
