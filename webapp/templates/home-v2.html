@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base-v2.html' %}
 
 {% block content %}
 
@@ -7,7 +7,7 @@
 
     <div class="file-upload-container" id="dropZone">
         <div class="upload-icon">
-            <img src="../static/IMG/upload.png" alt="">
+            <img src="/static/IMG/upload.png" alt="">
         </div>
 
         <div class="upload-text">Drag files to upload</div>
@@ -21,7 +21,7 @@
 
 </div>
 
-<form action="/generate" method="post" enctype="multipart/form-data" style="display: none;" id="uploadForm">
+<form action="/v2/generate" method="post" enctype="multipart/form-data" style="display: none;" id="uploadForm">
     <input type="file" id="formFile" name="file" accept="image/png, image/jpg, image/jpeg" required>
 </form>
 

@@ -1,0 +1,21 @@
+{% extends 'base.html' %} {% block body %}
+<div class="container">
+    <div class="row mt-4">
+        <h1 class="text-center fw-bold">Here is your ASCII art! A masterpiece, is it not?</h1>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="text-center" style="border: 2px solid black; border-radius: 20px;">
+                <pre role="img" aria-label="ASCII ART">{{ ascii }}</pre>
+            </div>
+            <!-- <p>{{ ascii }}</p> -->
+            <!-- <pre class="text-center" style="border: 2px solid black; border-radius: 20px;"></pre> -->
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZTM ASCII Art Generator</title>
+    <link rel="stylesheet" href="/static/main-v2.css">
+    
+</head>
+
+<body>
+    <div class="main-container {{template_name}}">
+        <div class="navigation">
+            <ul>
+                <li class="image-link"><a href="/v2">Image</a></li>
+                <li class="gallery-link"><a href="/v2/gallery">Gallery</a></li>
+            </ul>
+        </div>
+
+        {% block content %}{% endblock %}
+
+
+    </div>
+
+
+
+<script src="/static/main-v2.js"></script>
+</body>
+
+</html>
