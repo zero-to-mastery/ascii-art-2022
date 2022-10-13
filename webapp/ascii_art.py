@@ -17,6 +17,8 @@ from community_version import convert_image_to_ascii
 from pathlib import Path
 from colorama import Fore, Back, Style
 from constants import ASCII_CHARS
+from pyfiglet import Figlet
+
 IMG_FOLDER = os.path.join("static", "IMG")
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
 
@@ -213,6 +215,23 @@ def delete_file():
         os.remove(filepath)
         return redirect("/v2/gallery")
 
+
+########################
+#### Text ASCII Art ####
+########################
+
+@app.route("/v2/text", methods=["GET"])
+def text_art():
+    text_art = Figlet(font="slant").renderText("Zero to Mastery!")
+    return render_template("text-art-v2.html", template_name='text', text_art=text_art)
+
+@app.route("/v2/text/generate", methods=["POST"])
+def generate_text_art():
+    if request.method == "POST":
+        text = request.json.get("text")
+        fig = Figlet(font='slant')
+        art = fig.renderText(text)
+        return json.dumps({"art": art})
 
 if __name__ == "__main__":
     app.run(debug=True)
