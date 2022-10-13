@@ -256,10 +256,20 @@ button:active {
     max-width: 550px;
     height: 48px;
     padding: 0 1rem;
-    border-radius: 25px;
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
     border: 0.5px solid gray;
     outline: none;
     font-size: 15px;
+    margin-right: 1px;
+}
+
+#font {
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    padding: 0 6px;
 
 
 }
+
+

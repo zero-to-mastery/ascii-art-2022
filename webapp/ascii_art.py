@@ -17,7 +17,7 @@ from community_version import convert_image_to_ascii
 from pathlib import Path
 from colorama import Fore, Back, Style
 from constants import ASCII_CHARS
-from pyfiglet import Figlet
+from pyfiglet import Figlet, FigletFont
 
 IMG_FOLDER = os.path.join("static", "IMG")
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
@@ -222,15 +222,22 @@ def delete_file():
 
 @app.route("/v2/text", methods=["GET"])
 def text_art():
-    text_art = Figlet(font="slant").renderText("Zero to Mastery!")
-    return render_template("text-art-v2.html", template_name='text', text_art=text_art)
+    text_art = Figlet(font="standard").renderText("Zero to Mastery!")
+    fonts = ['standard', 'slant', '3-d', '5lineoblique', '6x10', 'acrobatic', 'arrows', 'ascii___',
+            'avatar', 'banner', 'banner3-D', 'banner3', 'banner4', 'big', 'block',
+            'broadway', 'bubble', 'caligraphy', 'doh', 'doom', 'isometric1', 'isometric3',
+            'nancyj-underlined', 'smkeyboard', 'univers']
+
+    return render_template("text-art-v2.html", template_name='text', text_art=text_art, fonts=fonts)
 
 @app.route("/v2/text/generate", methods=["POST"])
 def generate_text_art():
     if request.method == "POST":
-        text = request.json.get("text")
-        fig = Figlet(font='slant')
-        art = fig.renderText(text)
+        text = request.form.get("text") or "Zero to Mastery!"
+        font = request.form.get("font") or "slant"
+
+        art = Figlet(font=font).renderText(text)
+        
         return json.dumps({"art": art})
 
 if __name__ == "__main__":

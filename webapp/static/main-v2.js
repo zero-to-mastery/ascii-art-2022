@@ -53,20 +53,17 @@ deleteBtns.forEach(btn => {
 /***************************/
 /* 3) Text Art - Generate */
 /*************************/
-const textInput = document.querySelector('#text');
+const textSettingsForm = document.querySelector('#settingsForm');
 const asciiArt = document.querySelector('.ascii-art');
 
-if(textInput) {
-    textInput.addEventListener('input', (e) => {
+if(textSettingsForm) {
+    textSettingsForm.addEventListener('input', (e) => {
         const text = e.target.value;
+        var data = new FormData(textSettingsForm);
+
         fetch('/v2/text/generate', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                text
-            })
+            body: data
         }).then(res => res.json())
             .then(data => {
                 asciiArt.innerHTML = data.art;
