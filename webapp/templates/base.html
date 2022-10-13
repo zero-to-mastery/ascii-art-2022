@@ -1,116 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>ZTM ASCII Art Generator: The Web App!</title>
-        <!-- Bootstrap CSS only -->
-        <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
-            crossorigin="anonymous"
-        />
 
-        <!-- Google fonts -->
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;700&display=swap"
-            rel="stylesheet"
-        />
-        <link
-            rel="stylesheet"
-            href="{{ url_for('static', filename='css/darkmode.css') }}"
-        />
-        <link
-            rel="stylesheet"
-            href="{{ url_for('static', filename='css/main.css') }}"
-        />
-        <link
-            rel="stylesheet"
-            href="{{ url_for('static', filename='css/material-icons.css') }}"
-        />
-    </head>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ZTM ASCII Art Generator: The Web App!</title>
+    <!-- Bootstrap CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous" />
 
-    <body class="lightmode">
-        <nav>
-            <div class="container relative">
-                <div class="nav-buttons">
-                    <div class="nav-button">
-                        <button
-                            class="nv-btn"
-                            onclick="location.href='/'"
-                            type="button"
-                        >
-                            Home
-                        </button>
-                    </div>
-                    <div class="nav-button">
-                        <button
-                            class="nv-btn"
-                            onclick="location.href='/gallery/main'"
-                            type="button"
-                        >
-                            Gallery
-                        </button>
-                    </div>
+    <!-- Google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/darkmode.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/material-icons.css') }}" />
+</head>
+
+<body class="lightmode">
+    <nav>
+        <div class="container relative">
+            <div class="nav-buttons">
+                <div class="nav-button">
+                    <button class="nv-btn" onclick="location.href='/'" type="button">
+                        Home
+                    </button>
                 </div>
-                <span id="darkmode-switch" class="material-icons"
-                    >dark_mode</span
-                >
+                <div class="nav-button">
+                    <button class="nv-btn" onclick="location.href='/gallery/main'" type="button">
+                        Gallery
+                    </button>
+                </div>
+
+                <div class="nav-button">
+                    <button class="nv-btn" onclick="location.href='/v2'" type="button">
+                        New Version
+                    </button>
+                </div>
+
+
             </div>
-        </nav>
-        {% block body %}{% endblock %}
+            <span id="darkmode-switch" class="material-icons">dark_mode</span>
+        </div>
+    </nav>
+    {% block body %}{% endblock %}
 
-        <!-- Bootstrap JavaScript Bundle with Popper -->
-        <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
-            crossorigin="anonymous"
-        ></script>
-        <script>
-            function setDarkmode(darkmodeState) {
-                const navBar = document.getElementsByTagName("nav")[0];
-                const documentBody = document.getElementsByTagName("body")[0];
-                const darkmodeSwitch =
-                    document.getElementById("darkmode-switch");
+    <!-- Bootstrap JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+        crossorigin="anonymous"></script>
+    <script>
+        function setDarkmode(darkmodeState) {
+            const navBar = document.getElementsByTagName("nav")[0];
+            const documentBody = document.getElementsByTagName("body")[0];
+            const darkmodeSwitch =
+                document.getElementById("darkmode-switch");
 
-                if (darkmodeState == "False") {
-                    //setLightMode();
-                    documentBody.classList.remove("darkmode");
-                    documentBody.classList.add("lightmode");
-                    darkmodeSwitch.innerHTML = "dark_mode";
-                    darkmodeSwitch.style.color = "white";
-                } else if (darkmodeState == "True") {
-                    //setDarkMode();
-                    documentBody.classList.remove("lightmode");
-                    documentBody.classList.add("darkmode");
-                    darkmodeSwitch.innerHTML = "light_mode";
-                    darkmodeSwitch.style.color = "silver";
-                }
+            if (darkmodeState == "False") {
+                //setLightMode();
+                documentBody.classList.remove("darkmode");
+                documentBody.classList.add("lightmode");
+                darkmodeSwitch.innerHTML = "dark_mode";
+                darkmodeSwitch.style.color = "white";
+            } else if (darkmodeState == "True") {
+                //setDarkMode();
+                documentBody.classList.remove("lightmode");
+                documentBody.classList.add("darkmode");
+                darkmodeSwitch.innerHTML = "light_mode";
+                darkmodeSwitch.style.color = "silver";
             }
-            function toggleDarkmode() {
-                xhr = new XMLHttpRequest();
-                xhr.open("GET", "/toggle_darkmode", false);
-                xhr.send();
-                console.log("Cookie value: " + document.cookie);
-                darkmodeState = document.cookie.split("=")[1];
-                setDarkmode(darkmodeState);
-            }
-            function stateChange() {
-                darkmodeState = document.cookie.split("=")[1];
-                setDarkmode(darkmodeState);
-            }
-            //Check if the user has an existing darkmode state
-            const existing_state = document.cookie.split("=");
-            existing_state[0] == "darkmode" && existing_state[1] == "True"
-                ? setDarkmode("True")
-                : "";
-            //Add event listener to darkmode toggle button
-            const darkmodeSwitch = document.getElementById("darkmode-switch");
-            darkmodeSwitch.addEventListener("click", toggleDarkmode);
-        </script>
-    </body>
+        }
+        function toggleDarkmode() {
+            xhr = new XMLHttpRequest();
+            xhr.open("GET", "/toggle_darkmode", false);
+            xhr.send();
+            console.log("Cookie value: " + document.cookie);
+            darkmodeState = getCookie('darkmode');
+            setDarkmode(darkmodeState);
+        }
+        function stateChange() {
+            darkmodeState = getCookie('darkmode');
+            setDarkmode(darkmodeState);
+        }
+        //Check if the user has an existing darkmode state
+        const existing_state = getCookie('darkmode');
+        if(existing_state == "True") setDarkmode("True");
+
+        //Add event listener to darkmode toggle button
+        const darkmodeSwitch = document.getElementById("darkmode-switch");
+        darkmodeSwitch.addEventListener("click", toggleDarkmode);
+
+
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+        }
+    </script>
+</body>
+
 </html>

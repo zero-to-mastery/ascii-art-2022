@@ -1,0 +1,30 @@
+{% extends 'base-v2.html' %}
+
+{% block content %}
+
+<div class="container">
+    <h1 class="heading">ZTM ASCII Art Generator</h1>
+
+    <div class="file-upload-container" id="dropZone">
+        <div class="upload-icon">
+            <img src="/static/IMG/upload.png" alt="">
+        </div>
+
+        <div class="upload-text">Drag files to upload</div>
+        <div class="or-text">or</div>
+        <button id="uploadBtn" class="upload-button">Browse Files</button>
+
+        <div class="file-info">Supported file types: <span>JPG, PNG</span></div>
+    </div>
+
+    <button class="generate-button">Generate!</button>
+
+</div>
+
+<form action="/v2/generate" method="post" enctype="multipart/form-data" style="display: none;" id="uploadForm">
+    <input type="file" id="formFile" name="file" accept="image/png, image/jpg, image/jpeg" required>
+</form>
+
+
+{% endblock %}
+

@@ -1,0 +1,35 @@
+{% extends 'base-v2.html' %}
+
+{% block content %}
+
+<div class="container">
+  <h1 class="heading">Recent Pictures</h1>
+
+  <div class="gallery-images">
+    
+    {% for image in images %}
+      <div class="image">
+        <img src="/static/IMG/{{image}}" alt="">
+        <div class="info">
+          <div class="name">{{image[:20]}}</div>
+          <div class="actions">
+            <a href="/v2/gallery/{{image}}">
+              <img src="https://img.icons8.com/material-outlined/24/228BE6/visible--v1.png" />
+            </a>
+
+            <a href="#" class="delete-btn" data-name="{{image}}">
+              <img src="https://img.icons8.com/material-outlined/24/FA5252/trash--v1.png" />
+            </a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+
+    <form method="post" action="/v2/delete" id="deleteForm">
+      <input type="hidden" name="filename" id="imageId" value="" />
+    </form>
+
+  </div>
+</div>
+
+{% endblock %}
