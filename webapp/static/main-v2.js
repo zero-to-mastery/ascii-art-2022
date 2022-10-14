@@ -55,6 +55,7 @@ deleteBtns.forEach(btn => {
 /*************************/
 const textSettingsForm = document.querySelector('#settingsForm');
 const asciiArt = document.querySelector('.ascii-art');
+var TEXT_ART = asciiArt.innerText;
 
 if(textSettingsForm) {
     textSettingsForm.addEventListener('input', (e) => {
@@ -67,6 +68,7 @@ if(textSettingsForm) {
         }).then(res => res.json())
             .then(data => {
                 asciiArt.innerHTML = data.art;
+                TEXT_ART = data.art;
             })
     })
 }
