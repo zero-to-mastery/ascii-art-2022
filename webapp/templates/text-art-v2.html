@@ -1,30 +1,42 @@
 {% extends 'base-v2.html' %}
 
 {% block content %}
-<style>
-
-
-</style>
+<link rel="stylesheet" href="/static/color-picker.css">
 <div class="container">
     <h1 class="heading">Let's do some magic with text!</h1>
     <div class="settings">
         <form id="settingsForm">
             <div class="field">
                 <input type="text" name="text" id="text" class="input" placeholder="Start writing to see the magic...">
+
+                <div id="color-picker">
+                    <div class="wrapper-dropdown">
+                        <span>
+                            <span style="background: #FFFFFF" id="color-preview-color"></span>
+                            <span id="color-preview-name">White</span>
+                        </span>
+
+                        <ul class="dropdown" style="display: none;" id="color-picker-dropdown">
+
+                        </ul>
+                    </div>
+
+                    <input type="hidden" value="#FFFFFF" name="color">
+                </div>
                 <select name="font" id="font" class="font-selector">
-                    <!-- do a jinja for loop -->
                     {% for font in fonts %}
                     <option value="{{ font }}">{{ font.capitalize() }}</option>
                     {% endfor %}
 
                 </select>
             </div>
-        
+
         </form>
     </div>
     <pre class="ascii-art text-art">{{text_art}}</pre>
 
 </div>
 
+<script src="/static/color-picker.js"></script>
 
 {% endblock %}
