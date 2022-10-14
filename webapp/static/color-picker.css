@@ -1,0 +1,77 @@
+#color-picker {
+    width: 200px;
+    margin-right: 1px;
+    text-align: left;
+}
+
+.wrapper-dropdown {
+    position: relative;
+    background: #FFF;
+    color: #2e2e2e;
+    outline: none;
+    cursor: pointer;
+}
+
+.wrapper-dropdown>span {
+    display: block;
+    border: 1px solid #ababab;
+    height: 48px;
+    padding-left: 5px;
+}
+
+.wrapper-dropdown>span>span:nth-child(1) {
+    padding: 0 12px;
+    margin-right: 5px;
+    line-height: 48px;
+}
+
+.wrapper-dropdown>span:after {
+    content: "";
+    width: 0;
+    height: 0;
+    position: absolute;
+    right: 16px;
+    top: calc(50% + 4px);
+    margin-top: -6px;
+    border-width: 6px 6px 0 6px;
+    border-style: solid;
+    border-color: #2e2e2e transparent;
+}
+
+.wrapper-dropdown .dropdown {
+    position: absolute;
+    z-index: 10;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #fff;
+    font-weight: normal;
+    list-style-type: none;
+    padding-left: 0;
+    margin: 0;
+    border: 1px solid #ababab;
+    border-top: 0;
+}
+
+.wrapper-dropdown .dropdown li {
+    display: block;
+    text-decoration: none;
+    color: #2e2e2e;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.wrapper-dropdown .dropdown li>span {
+    padding: 0 12px;
+    margin-right: 5px;
+}
+
+.wrapper-dropdown .dropdown li:hover {
+    background: #eee;
+    cursor: pointer;
+}
+
+.wrapper-dropdown>span>span:nth-child(1),
+li span {
+    border: 0.5px solid black;
+}

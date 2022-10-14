@@ -253,12 +253,12 @@ button:active {
 
 .text .input#text {
     width: 100%;
-    max-width: 550px;
+    max-width: 400px;
     height: 48px;
     padding: 0 1rem;
     border-top-left-radius: 25px;
     border-bottom-left-radius: 25px;
-    border: 0.5px solid gray;
+    border: 0.5px solid #a2a2a2;
     outline: none;
     font-size: 15px;
     margin-right: 1px;
@@ -268,8 +268,9 @@ button:active {
     border-top-right-radius: 25px;
     border-bottom-right-radius: 25px;
     padding: 0 6px;
+    border: 0.5px solid #a2a2a2;
+    outline: none;
 
 
 }
-
 
