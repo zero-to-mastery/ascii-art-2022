@@ -55,6 +55,10 @@
     margin: 0;
     border: 1px solid #ababab;
     border-top: 0;
+
+    overflow: auto;
+    display: block;
+    height: 250px;
 }
 
 .wrapper-dropdown .dropdown li {

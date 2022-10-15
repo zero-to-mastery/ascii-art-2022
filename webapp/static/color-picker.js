@@ -8,6 +8,10 @@ var colors = [
         name: 'Blue'
     },
     {
+        hex: '#274dca',
+        name: 'Blue 2'
+    },
+    {
         hex: '#F7941D',
         name: 'Orange'
     },
@@ -20,23 +24,78 @@ var colors = [
         name: 'Red'
     },
     {
+        hex: '#FF000F',
+        name: 'Red 2'
+    },
+    {
         hex: '#01A252',
         name: 'Green'
+    },
+    {
+        hex: '#18E000',
+        name: 'Green 2'
     },
     {
         hex: '#FDED02',
         name: 'Yellow'
     },
     {
+        hex: '#ff0883',
+        name: 'Pink'
+    },
+
+    // 2 colors
+    {
+        hex: ['#08FF83', '#01A0E4'],
+        name: '',
+        type: 'horizontal'
+    },
+    {
+        hex: ['#08FF83', '#F7941D'],
+        name: '',
+        type: 'horizontal'
+    },
+
+
+    // 3 colors
+    {
         hex: ['#00AEEF', '#FF0099', '#FFD500'],
-        name: 'B P Y',
+        name: '',
         type: 'horizontal'
     },
     {
         hex: ['#FF0099', '#00AEEF', '#00A651'],
-        name: 'P B G',
+        name: '',
+        type: 'horizontal'
+    },
+    {
+        hex: ['#FF0099', '#00AEEF', '#FFD500'],
+        name: '',
+        type: 'horizontal'
+    },
+
+    // 4 colors
+    {
+        hex: ['#FF0099', '#00AEEF', '#00A651', '#FFD500'],
+        name: '',
+        type: 'horizontal'
+    },
+    {
+        hex: ['#1eff8e', '#ffb900', '#fd5ff1', '#00a0e4'],
+        name: '',
+        type: 'horizontal'
+    },
+    {
+        hex: ['#FF0099', '#00AEEF', '#00A651', '#FFD500', '#DB2D20'],
+        name: '',
+        type: 'horizontal'
+    },
+    {
+        hex: ['#FF6480', '#CE33C0', '#8E44AD', '#2980B9', '#00A0E4'],
+        name: '',
         type: 'horizontal'
     }
+
 ];
 
 var dropdown = document.getElementById('color-picker-dropdown');
@@ -95,24 +154,38 @@ colors.forEach(function (color) {
 
 function setMultilineColor(colors, type) {
     var lines = TEXT_ART.split('\n');
+    // remove empty lines
+    lines = lines.filter(function (line) {
+        return line.trim() !== '';
+    });
+
+    console.log(lines)
     var total = lines.length;
     var colorsCount = colors.length;
 
     var linesPerColor = Math.floor(total / colorsCount);
     var linesLeft = total - (linesPerColor * colorsCount);
 
+    var colorLines = {}
+    colors.forEach(function (color, index) {
+        colorLines[index] = linesPerColor;
+    });
+
+    for (var i = 0; i < linesLeft; i++) {
+        colorLines[i] += 1;
+    }
+
     var output = '';
     var colorIndex = 0;
-    var linesCount = 0;
+
     lines.forEach(function (line) {
-        if (linesCount >= linesPerColor) {
-            linesCount = 0;
-            linesLeft--;
+        if (colorLines[colorIndex] == 0) {
             colorIndex++;
         }
 
+        colorLines[colorIndex]--;
+
         output += `<span style="color: ${colors[colorIndex]}">${line}</span>\n`;
-        linesCount++;
     });
 
     var textArtContainer = document.querySelector('.text-art');
