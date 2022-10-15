@@ -152,14 +152,13 @@ colors.forEach(function (color) {
     dropdown.appendChild(li);
 });
 
-function setMultilineColor(colors, type) {
+function setMultilineColor(colors, type=null) {
     var lines = TEXT_ART.split('\n');
     // remove empty lines
-    lines = lines.filter(function (line) {
+    lines = lines.filter(function (line, index) {
         return line.trim() !== '';
     });
 
-    console.log(lines)
     var total = lines.length;
     var colorsCount = colors.length;
 
@@ -206,8 +205,14 @@ function toggleDropdown() {
 
 function updateColor() {
     var color = colorInput.value;
-    var textArtContainer = document.querySelector('.text-art');
-    textArtContainer.style.color = color;
+    // if it contains a comma
+    if (color.indexOf(',') > -1) {
+        var colors = color.split(',');
+        setMultilineColor(colors);
+    } else {
+        var textArtContainer = document.querySelector('.text-art');
+        textArtContainer.style.color = color;
+    }
 }
 
 

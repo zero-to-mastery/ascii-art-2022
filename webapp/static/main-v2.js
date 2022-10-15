@@ -69,6 +69,7 @@ if(textSettingsForm) {
             .then(data => {
                 asciiArt.innerHTML = data.art;
                 TEXT_ART = data.art;
+                updateColor();
             })
     })
 }
