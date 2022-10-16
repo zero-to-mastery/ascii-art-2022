@@ -154,16 +154,22 @@ colors.forEach(function (color) {
 
 function setMultilineColor(colors, type=null) {
     var lines = TEXT_ART.split('\n');
-    // remove empty lines
-    lines = lines.filter(function (line, index) {
-        return line.trim() !== '';
+    // remove last line if its empty
+    if (lines[lines.length - 1] === '') {
+        lines.pop();
+    }
+
+    var totalLines = 0;
+    lines.forEach(line => {
+        if(line.trim() !== '') {
+            totalLines++;
+        }
     });
 
-    var total = lines.length;
     var colorsCount = colors.length;
 
-    var linesPerColor = Math.floor(total / colorsCount);
-    var linesLeft = total - (linesPerColor * colorsCount);
+    var linesPerColor = Math.floor(totalLines / colorsCount);
+    var linesLeft = totalLines - (linesPerColor * colorsCount);
 
     var colorLines = {}
     colors.forEach(function (color, index) {
@@ -182,7 +188,10 @@ function setMultilineColor(colors, type=null) {
             colorIndex++;
         }
 
-        colorLines[colorIndex]--;
+        if (line.trim() !== '') {
+            colorLines[colorIndex]--;
+        }
+
 
         output += `<span style="color: ${colors[colorIndex]}">${line}</span>\n`;
     });
@@ -205,7 +214,6 @@ function toggleDropdown() {
 
 function updateColor() {
     var color = colorInput.value;
-    // if it contains a comma
     if (color.indexOf(',') > -1) {
         var colors = color.split(',');
         setMultilineColor(colors);
