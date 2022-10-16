@@ -274,3 +274,22 @@ button:active {
 
 }
 
+#exportButton {
+    position: absolute;
+    bottom: 44px;
+    right: 30px;
+    max-width: 0;
+    padding: 8px 20px;
+    display: flex;
+    justify-content: center;
+    border: none;
+}
+
+#exportButton:hover {
+    background:white;
+    transform: scale(1.1);
+}
+
+#exportButton:active {
+    transform: scale(0.95);
+}
