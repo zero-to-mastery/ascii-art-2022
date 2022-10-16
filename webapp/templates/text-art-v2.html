@@ -1,7 +1,7 @@
 {% extends 'base-v2.html' %}
 
 {% block content %}
-<link rel="stylesheet" href="/static/color-picker.css">
+<link rel="stylesheet" href="/static/text-art.css">
 <div class="container">
     <h1 class="heading">Let's do some magic with text!</h1>
     <div class="settings">
@@ -35,10 +35,13 @@
 
         </form>
     </div>
-    <pre class="ascii-art text-art">{{text_art}}</pre>
+    <pre class="ascii-art text-art" id="text-art">{{text_art}}</pre>
+    <button id="exportButton"><img src="https://img.icons8.com/material-rounded/24/228BE6/download--v1.png"/>
+
+    </button>
 
 </div>
 
-<script src="/static/color-picker.js"></script>
-
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+<script src="/static/text-art.js"></script>
 {% endblock %}

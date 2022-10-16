@@ -223,6 +223,20 @@ function updateColor() {
     }
 }
 
+function downloadArt() {
+    var textArtContainer = document.querySelector('#text-art');
+    html2canvas(textArtContainer).then(canvas => {
+        document.body.appendChild(canvas);
+        var link = document.createElement('a');
+        link.download = 'text-art.png';
+        link.href = canvas.toDataURL();
+        link.click();
+
+        document.body.removeChild(canvas);
+
+    });
+}
+
 
 document.querySelector('.wrapper-dropdown').addEventListener('click', toggleDropdown);
-
+document.querySelector('#exportButton').addEventListener('click', downloadArt);
