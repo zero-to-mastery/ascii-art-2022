@@ -228,15 +228,13 @@ button:active {
 
 
 
-.ascii-art {
-    height: 500px;
-    overflow: auto;
-}
-
-.text-art {
+.text-art, .ascii-art {
     background: black;
     color: white;
     border-radius: 1rem;
+    height: 500px;
+    overflow: auto;
+    padding: 16px 0;
 }
 
 
@@ -283,6 +281,10 @@ button:active {
     display: flex;
     justify-content: center;
     border: none;
+}
+
+#exportButton.ascii-art-export-button {
+    bottom: -40px;
 }
 
 #exportButton:hover {

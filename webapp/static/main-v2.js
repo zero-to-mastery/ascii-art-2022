@@ -73,3 +73,21 @@ if(textSettingsForm) {
             })
     })
 }
+
+
+
+
+function downloadArt() {
+    var artContainer = document.querySelector('.ascii-art');
+    html2canvas(artContainer).then(canvas => {
+        document.body.appendChild(canvas);
+        var link = document.createElement('a');
+        link.download = 'text-art.png';
+        link.href = canvas.toDataURL();
+        link.click();
+
+        document.body.removeChild(canvas);
+
+    });
+}
+document.querySelector('#exportButton').addEventListener('click', downloadArt);

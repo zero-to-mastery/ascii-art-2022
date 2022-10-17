@@ -224,8 +224,8 @@ function updateColor() {
 }
 
 function downloadArt() {
-    var textArtContainer = document.querySelector('#text-art');
-    html2canvas(textArtContainer).then(canvas => {
+    var artContainer = document.querySelector('.ascii-art');
+    html2canvas(artContainer).then(canvas => {
         document.body.appendChild(canvas);
         var link = document.createElement('a');
         link.download = 'text-art.png';
@@ -236,7 +236,7 @@ function downloadArt() {
 
     });
 }
+document.querySelector('#exportButton').addEventListener('click', downloadArt);
 
 
 document.querySelector('.wrapper-dropdown').addEventListener('click', toggleDropdown);
-document.querySelector('#exportButton').addEventListener('click', downloadArt);
