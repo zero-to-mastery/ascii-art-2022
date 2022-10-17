@@ -259,13 +259,9 @@ class App(tk.Tk):
         super().__init__()
         self.title('Image to ASCII converter')
         self.geometry('800x220')
-        # label
         ttk.Label(self, text="Image to ASCII Convertor", font=("Times",25,"bold"),width=25).pack()
 
-        # button
-        s_btn_open = ttk.Style()
-        s_btn_open.configure("btnOpen.TButton", background="white", font=('Helvetica', 12), height=50, width=25)
-        self.btn_open = ttk.Button(self, text="Open", style="btnOpen.TButton", command=self.open_file)
+        self.btn_open = Button(self, text="Open", command=self.open_file)
         self.btn_open.place(x=80, y=60)
 
         self.label_image_path_status= Label(self, text="Oops, you forgot to specify an Image path: ", font=(15))
