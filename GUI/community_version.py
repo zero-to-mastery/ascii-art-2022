@@ -2,11 +2,8 @@
 import argparse
 import pyfiglet
 
-import customtkinter
-
 import tkinter.messagebox as ms
 from tkinter import *
-from tkinter import font
 from tkinter.filedialog import askopenfilename
 
 import tkinter as tk
@@ -18,7 +15,6 @@ from time import sleep
 
 from PIL import Image, ImageChops
 from rich.console import Console
-from rich.terminal_theme import MONOKAI
 
 FILES_IMG_EXTENSION = [
     ("All Images", "*.jpg;*.jpeg;*.png"),
@@ -153,13 +149,13 @@ class OutputWriter:
             sleep(1)
             console.print("[bold green]Here we go...!")
 
-
     def get_out_paths(self):
         out_paths = []
         for out in self.outputs:
             if out[-4:] == ".txt":
                 out_paths.append(out)
         return out_paths
+
     def write(self, ASCII_image):
         if 'console' in self.outputs:
             self.print_prepare_info()
@@ -261,12 +257,12 @@ class App(tk.Tk):
         super().__init__()
         self.title('Image to ASCII converter')
         self.geometry('800x220')
-        ttk.Label(self, text="Image to ASCII Convertor", font=("Times",25,"bold"),width=25).pack()
+        ttk.Label(self, text="Image to ASCII Convertor", font=("Times", 25, "bold"), width=25).pack()
 
         self.btn_open = Button(self, text="Open", command=self.open_file)
         self.btn_open.place(x=80, y=60)
 
-        self.label_image_path_status= Label(self, text="", font=(15))
+        self.label_image_path_status = Label(self, text="", font=(15))
         self.label_image_path_status.place(x=140, y=60)
 
         self.img_path_entry = Entry(self, bd=5, font=(15), width=70)
@@ -311,9 +307,5 @@ class App(tk.Tk):
 
 
 if __name__ == "__main__":
-
-    customtkinter.set_appearance_mode("System")
-    customtkinter.set_default_color_theme("blue")
-
     app = App()
     app.mainloop()
