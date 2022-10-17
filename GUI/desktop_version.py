@@ -8,7 +8,8 @@ import tkinter.messagebox as ms
 currentdir = os.path.dirname(os.path.realpath(__file__))
 parentdir = os.path.dirname(currentdir)
 sys.path.append(parentdir)
-from community_version import convert_image_to_ascii
+#from community_version import convert_image_to_ascii
+from GUI.community_version import Image2ASCIIConverter
 
 
 W_WIDTH = 1200
@@ -34,7 +35,8 @@ def open_file():
     txt_ascii_art.config(state="normal")
     txt_ascii_art.delete("1.0", END)
     img = Image.open(filepath)
-    ascii_art = convert_image_to_ascii(img, RANGE_WIDTH, ascii_chars=ASCII_CHARS)
+    converter = Image2ASCIIConverter(ASCII_CHARS)
+    ascii_art = converter.convert_image_to_ascii(img, RANGE_WIDTH)
     txt_ascii_art.insert(END, ascii_art)
     txt_ascii_art.config(state="disabled")
     filename = filepath.split("/")[-1]
