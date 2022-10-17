@@ -2,6 +2,8 @@
 import argparse
 import webbrowser
 import re
+import sys
+import time
 
 from math import ceil
 from pathlib import Path
@@ -41,6 +43,7 @@ def map_pixels_to_color(image, new_width=500, new_height=500):
     pixels_to_chars = [
         ASCII_CHARS[int(pixel_value / 86)] for pixel_value in pixels_in_image
     ]
+    print(pixels_to_chars)
     # creating matrix to write new image with colors
     arr_2d = []
     arr3 = []
@@ -53,6 +56,7 @@ def map_pixels_to_color(image, new_width=500, new_height=500):
         arr_2d.append(arr3)
         arr3 = []
         temp = end_value
+    #print(arr_2d)
     # Re-writing  pixel
     smiley = Image.new("RGB", (new_width, new_height))
     for row in range(500):
@@ -60,7 +64,49 @@ def map_pixels_to_color(image, new_width=500, new_height=500):
             smiley.putpixel((col, row), arr_2d[row][col])
     return smiley.show()
 
+def drawing(image_ascii):
+    # converting string to list
+    pixels_to_chars = []
+    for char in image_ascii:
+        pixels_to_chars.append(char)
+    # converting string to matrix
+    arr_2d = []
+    arr3 = []
+    temp = 0
+    new_width=100
+    new_height=int(len(pixels_to_chars)/new_width)
 
+    for j in range(0, new_height):
+        start_value = temp
+        end_value = new_width * (j + 1)
+        for i in range(start_value, end_value):
+            arr3.append(pixels_to_chars[i])
+        arr_2d.append(arr3)
+        arr3 = []
+        temp = end_value
+    #defining multiple colour   
+    pink = "\033[1;35m"    
+    blue = "\033[1;34m"
+    yellow = "\033[1;33m"
+    green = "\033[1;32m"
+    red = "\033[1;31m"
+    slat = "\033[1;30m"
+
+    #sketching with different colour
+    for row in range(new_height):
+        if row%2 == 0:
+            color = red
+        elif row%3 == 0:
+            color = yellow 
+        else:
+            color = slat
+        
+        for col in range(new_width):
+            time.sleep(0.003)
+            sys.stdout.write(color)
+            sys.stdout.write(arr_2d[row][col])
+            sys.stdout.flush()
+   
 def map_pixels_to_ascii_chars(image, range_width, ascii_chars):
     """Maps each pixel to an ascii char based on the range
     in which it lies.
@@ -166,6 +212,7 @@ def handle_black_yellow(image):
     map_pixels_to_color(image)
 
 
+
 def handle_image_print(image_ascii, color=None):
     console = Console()
 
@@ -263,6 +310,14 @@ def init_args_parser():
         help=(
             "A single ASCII character to display the image. "
             "It uses existing default preset character to convert it into single."
+        ),
+    )
+
+    parser.add_argument(
+        "--drawing",
+        action='store_true',
+        help=(
+            "It will draw image with multiple character "
         ),
     )
 
@@ -365,7 +420,11 @@ def main():
     )
     if args.single_ascii_char:
         image_ascii = single_ascii_replacement(image_ascii, args.single_ascii_char)
-
+    
+    if args.drawing:
+        drawing(image_ascii)
+        print("\n")
+        return
     # display the ASCII art to the console
     handle_image_print(image_ascii, args.color)
 
