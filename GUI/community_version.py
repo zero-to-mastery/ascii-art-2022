@@ -310,8 +310,10 @@ class App(tk.Tk):
         return image_ascii
 
 
-customtkinter.set_appearance_mode("System")
-customtkinter.set_default_color_theme("blue")
+if __name__ == "__main__":
 
-app = App()
-app.mainloop()
+    customtkinter.set_appearance_mode("System")
+    customtkinter.set_default_color_theme("blue")
+
+    app = App()
+    app.mainloop()
