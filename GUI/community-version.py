@@ -2,6 +2,8 @@
 import argparse
 import pyfiglet
 
+import customtkinter
+
 import tkinter.messagebox as ms
 from tkinter import *
 from tkinter import font
@@ -264,7 +266,7 @@ class App(tk.Tk):
         self.btn_open = Button(self, text="Open", command=self.open_file)
         self.btn_open.place(x=80, y=60)
 
-        self.label_image_path_status= Label(self, text="Oops, you forgot to specify an Image path: ", font=(15))
+        self.label_image_path_status= Label(self, text="", font=(15))
         self.label_image_path_status.place(x=140, y=60)
 
         self.img_path_entry = Entry(self, bd=5, font=(15), width=70)
@@ -278,8 +280,11 @@ class App(tk.Tk):
         self.ASCII_CHARS, self.range_width = Utilities.parse_charset(self.args.CHAR_SET)
 
     def main(self):
-        print(pyfiglet.figlet_format("Welcome to ASCII ART Generator"))
         image_file_path = self.img_path_entry.get()
+        if not image_file_path:
+            self.label_image_path_status["text"] = "Oops, you forgot to specify an Image path: "
+            return
+        print(pyfiglet.figlet_format("Welcome to ASCII ART Generator"))
         ascii_img = self.handle_image(image_file_path)
         ow = OutputWriter(self.args.color_ascii, self.args.store_art)
         ow.write(ascii_img)
@@ -288,6 +293,7 @@ class App(tk.Tk):
         filepath = askopenfilename(filetypes=FILES_IMG_EXTENSION)
 
         if not filepath:
+            self.label_image_path_status["text"] = "Oops, you forgot to specify an Image path: "
             return
 
         self.img_path_entry.insert(0, filepath)
@@ -302,6 +308,10 @@ class App(tk.Tk):
             image, self.range_width
         )
         return image_ascii
+
+
+customtkinter.set_appearance_mode("System")
+customtkinter.set_default_color_theme("blue")
 
 app = App()
 app.mainloop()
