@@ -14,6 +14,8 @@ from PIL import Image, ImageChops
 from rich.console import Console
 from rich.terminal_theme import MONOKAI
 
+import matplotlib.pyplot as plt
+
 
 
 def scale_image(image, new_width=100):
@@ -274,7 +276,27 @@ def main():
     image_file_path = entry1.get()
     ascii_img = handle_image(image_file_path)
     print(ascii_img)
+    save_image(ascii_img)
     write_to_txtfile(ascii_img)
+    
+def save_image(image):
+    plt.figure(figsize=(0, 0), dpi=80)
+
+    plt.text(0,1,str(image))
+    plt.axis('off')
+    plt.savefig('ascii_img.png', bbox_inches='tight')
+
+    
+
+def open_file():
+    filepath = askopenfilename(filetypes=FILES_IMG_EXTENSION)
+
+    if not filepath:
+        return
+
+    global entry1,label1
+    entry1.insert(0, filepath)
+    label1["text"]="image is ready to convert"
 
 root=Tk()
 root.geometry("800x220")
@@ -283,6 +305,9 @@ root.configure(background="black")
 root.resizable(0,0)
 
 Label(root, text = "Image to ASCII Convertor",fg="black",font=("Times",25,"bold"),width=25).pack()
+
+btn_open = Button(root, text="Open",fg="black",font=(15), command=open_file)
+btn_open.place(x=80,y=60)
 
 label1 = Label(root, text = "Oops, you forgot to specify an Image path: ",fg="black",font=(15))
 label1.place(x=80,y=60)
