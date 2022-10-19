@@ -291,7 +291,6 @@ def save_image(image):
 
     plt.text(0,1,str(image))
     plt.axis('off')
-
     plt.savefig('ascii_img.png', bbox_inches='tight')
 
     
