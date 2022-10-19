@@ -15,6 +15,8 @@ from PIL import Image, ImageChops
 from rich.console import Console
 from rich.terminal_theme import MONOKAI
 
+import matplotlib.pyplot as plt
+
 
 FILES_IMG_EXTENSION = [
     ("All Images", "*.jpg;*.jpeg;*.png"),
@@ -281,7 +283,18 @@ def main():
     image_file_path = entry1.get()
     ascii_img = handle_image(image_file_path)
     print(ascii_img)
+    save_image(ascii_img)
     write_to_txtfile(ascii_img)
+
+def save_image(image):
+    plt.figure(figsize=(0, 0), dpi=80)
+
+    plt.text(0,1,str(image))
+    plt.axis('off')
+
+    plt.savefig('ascii_img.png', bbox_inches='tight')
+
+    
 
 def open_file():
     filepath = askopenfilename(filetypes=FILES_IMG_EXTENSION)
