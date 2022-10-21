@@ -236,7 +236,5 @@ function downloadArt() {
 
     });
 }
-document.querySelector('#exportButton').addEventListener('click', downloadArt);
-
 
 document.querySelector('.wrapper-dropdown').addEventListener('click', toggleDropdown);
