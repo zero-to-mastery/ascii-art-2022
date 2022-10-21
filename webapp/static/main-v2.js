@@ -98,8 +98,30 @@ if (document.querySelector('#exportButton'))
 
 document.getElementById("darkmode-input").addEventListener("change", function () {
     if (this.checked) {
-        document.body.classList.remove("darkmode");
+        setColorMode(false);
     } else {
-        document.body.classList.add("darkmode");
+        setColorMode(true);
     }
 });
+
+
+function setColorMode(dark=false) {
+    if (dark) {
+        document.body.classList.add("darkmode");
+        document.getElementById("darkmode-input").checked = false;
+        localStorage.setItem("darkmode", true);
+    } else {
+        document.body.classList.remove("darkmode");
+        document.getElementById("darkmode-input").checked = true;
+        localStorage.setItem("darkmode", false);
+    }
+}
+
+
+if(localStorage.getItem("darkmode") == "true") {
+    setColorMode(true);
+} else {
+    setColorMode(false);
+}
+
+
