@@ -236,7 +236,10 @@ function downloadArt() {
 
     });
 }
-document.querySelector('#exportButton').addEventListener('click', downloadArt);
-
 
 document.querySelector('.wrapper-dropdown').addEventListener('click', toggleDropdown);
+
+
+document.querySelector("#background-color").addEventListener('input', () => {
+    document.querySelector('.ascii-art').style.backgroundColor = document.querySelector("#background-color").value;
+})

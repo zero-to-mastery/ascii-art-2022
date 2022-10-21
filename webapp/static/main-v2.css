@@ -253,6 +253,10 @@ button:active {
     padding: 16px 0;
 }
 
+.text-art {
+    height: 350px;
+}
+
 
 .text .field {
     display: flex;
@@ -267,7 +271,7 @@ button:active {
 
 .text .input#text {
     width: 100%;
-    max-width: 400px;
+    max-width: 300px;
     height: 48px;
     padding: 0 1rem;
     border-top-left-radius: 25px;
