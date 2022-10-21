@@ -253,6 +253,10 @@ button:active {
     padding: 16px 0;
 }
 
+.text-art {
+    height: 350px;
+}
+
 
 .text .field {
     display: flex;
