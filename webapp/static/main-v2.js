@@ -8,18 +8,18 @@ if (uploadBtn) {
     uploadBtn.addEventListener("click", function () {
         uploadFile.click();
     });
-    
+
     uploadFile.addEventListener("change", function () {
         document.getElementById("uploadForm").submit();
     });
-    
+
     var dropZone = document.getElementById("dropZone");
     dropZone.addEventListener("dragover", function (e) {
         e.preventDefault();
         e.stopPropagation();
         dropZone.classList.add("dragover");
     });
-    
+
     dropZone.addEventListener("drop", function (e) {
         e.preventDefault();
         e.stopPropagation();
@@ -55,9 +55,9 @@ deleteBtns.forEach(btn => {
 /*************************/
 const textSettingsForm = document.querySelector('#settingsForm');
 const asciiArt = document.querySelector('.ascii-art');
-var TEXT_ART = asciiArt.innerText;
+var TEXT_ART = asciiArt ? asciiArt.innerText : null;
 
-if(textSettingsForm) {
+if (textSettingsForm) {
     textSettingsForm.addEventListener('input', (e) => {
         const text = e.target.value;
         var data = new FormData(textSettingsForm);
@@ -90,4 +90,16 @@ function downloadArt() {
 
     });
 }
-document.querySelector('#exportButton').addEventListener('click', downloadArt);
+if (document.querySelector('#exportButton'))
+    document.querySelector('#exportButton').addEventListener('click', downloadArt);
+
+
+
+
+document.getElementById("darkmode-input").addEventListener("change", function () {
+    if (this.checked) {
+        document.body.classList.remove("darkmode");
+    } else {
+        document.body.classList.add("darkmode");
+    }
+});

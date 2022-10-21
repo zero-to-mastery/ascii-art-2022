@@ -7,16 +7,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ZTM ASCII Art Generator</title>
     <link rel="stylesheet" href="/static/main-v2.css">
-    
+
 </head>
 
-<body>
+<body class="">
     <div class="main-container {{template_name}}">
         <div class="navigation">
             <ul>
                 <li class="image-link"><a href="/v2">Image</a></li>
                 <li class="gallery-link"><a href="/v2/gallery">Gallery</a></li>
                 <li class="text-link"><a href="/v2/text">Text</a></li>
+                <div class="darkmode-switch" id="darkmode-switch">
+                    <label>
+                        <input type="checkbox" id="darkmode-input" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
             </ul>
         </div>
 
@@ -26,7 +33,7 @@
     </div>
 
 
-<script src="/static/main-v2.js"></script>
+    <script src="/static/main-v2.js"></script>
 </body>
 
 </html>
