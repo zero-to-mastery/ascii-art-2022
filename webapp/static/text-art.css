@@ -92,3 +92,8 @@ li span {
 #color-picker-dropdown .color-multiple:last-child {
     margin-right: 5px!important;
 }
+
+#background-color {
+    height: 50px;
+    width: 85px;
+}
