@@ -176,6 +176,16 @@ def hype(console):
         "Finalizing",
         "Testing",
         "Upgrading",
+        "Launching",
+        "Logging",
+        "Scanning",
+        "Setting up",
+        "Tracking",
+        "Finding",
+        "Cloning",
+        "Forking",
+        "Booting up",
+        "Loading in",
     ]
 
     nouns = [
@@ -192,7 +202,13 @@ def hype(console):
         "disks",
         "JPEGs",
         "ROMs",
-        "Viruses",
+        "RAMs",
+        "repositories",
+        "viruses",
+        "messages",
+        "errors",
+        "progress bar",
+        "users",
     ]
 
     # To print beautiful dummy progress bar to the user
