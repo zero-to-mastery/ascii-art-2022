@@ -108,7 +108,7 @@ def drawing(image_ascii):
             sys.stdout.flush()
    
 def map_pixels_to_ascii_chars(image, range_width, ascii_chars):
-    """Maps each pixel to an ascii char based on the range
+    """Maps each pixel to an ascii character based on the range
     in which it lies.
 
     0-255 is divided into 11 ranges of 25 pixels each.
@@ -269,7 +269,7 @@ def init_args_parser():
         dest="stdin",
         nargs="?",
         type=argparse.FileType("rb"),
-        help="Read image from stdin",
+        help="Read image from stdin.",
         default=stdin,
     )
 
@@ -333,7 +333,7 @@ def init_args_parser():
         "--drawing",
         action='store_true',
         help=(
-            "It will draw image with multiple character "
+            "It will draw an image with multiple characters. "
         ),
     )
 
@@ -403,7 +403,7 @@ def handle_store_art(path, image_ascii, color):
     except Exception as e:
         print(e)
         print(
-            "\33[101mOops, I think you have choosed wrong file extension. Please give a svg file name e.g., output.txt \033[0m"
+            "\33[101mOops, you have chosen the wrong file extension. Please give a svg file name e.g., output.txt \033[0m"
         )
 
 
