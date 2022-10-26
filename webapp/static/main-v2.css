@@ -167,7 +167,10 @@ button:active {
     cursor: pointer;
     margin-top: 24px;
 }
-
+.generate-button:hover{
+    background-color: white;
+    color: #00a9ff;
+        }
 
 #dropZone.dragover {
     border: 4px dashed #00a9ff;
