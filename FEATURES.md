@@ -14,3 +14,4 @@
   - Different character sets in gallery
 - FastAPI API endpoints
 - ASCII to video
+- Supported IMG files: "JPG", "JPEG", "PNG"
