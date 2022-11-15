@@ -44,9 +44,18 @@ def open_file():
 
 
 def save_file():
-    ms.showerror("Error", "functionality not implemented yet")
-    pass
-
+    ascii_art = txt_ascii_art.get("1.0",END).strip()
+    if len(ascii_art) < 1:
+        ms.showerror("Null", "No data detected!")
+        return
+    if os.path.exists("./ascii.txt"):
+        if not ms.askyesno("File exist", "File exist. Do you want to overwrite the existing file?"):
+            ms.showinfo("Cancelled", "File not saved")
+            return    
+    with open("ascii.txt", "w") as file:
+        file.write(ascii_art)
+        ms.showinfo("status", "File Succesfully Saved!")
+        return
 
 def init_window() -> Tk:
     window = Tk()
