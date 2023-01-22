@@ -368,6 +368,12 @@ def ask_user_for_image_path_until_success(get_image):
             return ask_user_for_image_path_until_success(
                 lambda: Image.open(prompt("> ", completer=PathCompleter()))
             )
+        except AttributeError:
+            print("The specified path is not of a valid image, please try again.")
+            return ask_user_for_image_path_until_success(
+                lambda: Image.open(prompt("> ", completer=PathCompleter()))
+            )
+
         else:
             return image
 
