@@ -33,9 +33,11 @@ def convert_to_grayscale(image):
 def map_pixels_to_color(image, new_width=500, new_height=500):
     b = (0, 0, 0)
     y = (255, 255, 0)
+    w = (255,255,255)
     # creating new image with two different colors. Mixing more colors makes image blur.
-    ASCII_CHARS = [b, y, b, y]
-
+    #ASCII_CHARS = [b, y, b, y]
+    ASCII_CHARS = [b, y, w]
+    
     image = image.resize((new_width, new_height))
     image = convert_to_grayscale(image)
     pixels_in_image = list(image.getdata())
@@ -43,7 +45,8 @@ def map_pixels_to_color(image, new_width=500, new_height=500):
     pixels_to_chars = [
         ASCII_CHARS[int(pixel_value / 86)] for pixel_value in pixels_in_image
     ]
-    print(pixels_to_chars)
+    #print(pixels_to_chars)
+    
     # creating matrix to write new image with colors
     arr_2d = []
     arr3 = []
@@ -63,6 +66,7 @@ def map_pixels_to_color(image, new_width=500, new_height=500):
         for col in range(new_width):
             smiley.putpixel((col, row), arr_2d[row][col])
     return smiley.show()
+    
 
 def drawing(image_ascii):
     # converting string to list
@@ -261,8 +265,13 @@ def handle_image_conversion(image, range_width, ascii_chars, inverse_color):
 def init_args_parser():
     parser = argparse.ArgumentParser()
 
+    charset_group = parser.add_mutually_exclusive_group()
+
     parser.add_argument(
-        dest="image_file_path", nargs="?", type=str, help="Image file path."
+        dest="image_file_path", 
+        nargs="?", 
+        type=str, 
+        help="Image file path."
     )
 
     parser.add_argument(
@@ -273,7 +282,7 @@ def init_args_parser():
         default=stdin,
     )
 
-    parser.add_argument(
+    charset_group.add_argument(
         "--preset",
         dest="preset",
         type=int,
@@ -281,14 +290,14 @@ def init_args_parser():
         help="Select 1 or 2 for predefined ASCII character sets.",
     )
 
-    parser.add_argument(
+    charset_group.add_argument(
         "--charset",
         dest="charset",
         nargs="+",
         help="A list of characters to display the image, from darkest to brightest.",
     )
 
-    parser.add_argument(
+    charset_group.add_argument(
         "--black-yellow",
         dest="black_yellow",
         action="store_true",
@@ -296,7 +305,10 @@ def init_args_parser():
     )
 
     parser.add_argument(
-        "--inverse", dest="inverse_image", action="store_true", default=False
+        "--inverse", 
+        dest="inverse_image", 
+        action="store_true", 
+        default=False
     )
 
     parser.add_argument(
@@ -373,6 +385,21 @@ def ask_user_for_image_path_until_success(get_image):
             return ask_user_for_image_path_until_success(
                 lambda: Image.open(prompt("> ", completer=PathCompleter()))
             )
+        except IsADirectoryError:
+            print("The specified path is not of a valid image, please try again.")
+            return ask_user_for_image_path_until_success(
+                lambda: Image.open(prompt("> ", completer=PathCompleter()))
+        )
+        except KeyboardInterrupt:
+            print("Are you sure you want to quit Y/N : ")
+            input = prompt("> ")
+            if input.upper() =='Y' :
+                sys.exit()
+            else :
+                print("The specified path is not of a valid image, please try again.")
+                return ask_user_for_image_path_until_success(
+                    lambda: Image.open(prompt("> ", completer=PathCompleter()))
+        )
 
         else:
             return image
@@ -417,7 +444,8 @@ def main():
     args = init_args_parser()
 
     if not args.stdin.isatty():
-        image = read_image_from_stdin(args.stdin.buffer)
+        #image = read_image_from_stdin(args.stdin.buffer)
+        image = read_image_from_stdin(args.stdin)
     else:
         image = read_image_from_path(args.image_file_path)
 
