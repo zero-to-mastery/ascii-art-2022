@@ -4,6 +4,7 @@ import webbrowser
 import re
 import sys
 import time
+import cv2
 
 from math import ceil
 from pathlib import Path
@@ -56,13 +57,14 @@ def map_pixels_to_color(image, new_width=500, new_height=500):
         arr_2d.append(arr3)
         arr3 = []
         temp = end_value
-    #print(arr_2d)
+    # print(arr_2d)
     # Re-writing  pixel
     smiley = Image.new("RGB", (new_width, new_height))
     for row in range(500):
         for col in range(new_width):
             smiley.putpixel((col, row), arr_2d[row][col])
     return smiley.show()
+
 
 def drawing(image_ascii):
     # converting string to list
@@ -73,8 +75,8 @@ def drawing(image_ascii):
     arr_2d = []
     arr3 = []
     temp = 0
-    new_width=100
-    new_height=int(len(pixels_to_chars)/new_width)
+    new_width = 100
+    new_height = int(len(pixels_to_chars)/new_width)
 
     for j in range(0, new_height):
         start_value = temp
@@ -84,29 +86,30 @@ def drawing(image_ascii):
         arr_2d.append(arr3)
         arr3 = []
         temp = end_value
-    #defining multiple colour   
-    pink = "\033[1;35m"    
+    # defining multiple colour
+    pink = "\033[1;35m"
     blue = "\033[1;34m"
     yellow = "\033[1;33m"
     green = "\033[1;32m"
     red = "\033[1;31m"
     slat = "\033[1;30m"
 
-    #sketching with different colour
+    # sketching with different colour
     for row in range(new_height):
-        if row%2 == 0:
+        if row % 2 == 0:
             color = red
-        elif row%3 == 0:
-            color = yellow 
+        elif row % 3 == 0:
+            color = yellow
         else:
             color = slat
-        
+
         for col in range(new_width):
             time.sleep(0.003)
             sys.stdout.write(color)
             sys.stdout.write(arr_2d[row][col])
             sys.stdout.flush()
-   
+
+
 def map_pixels_to_ascii_chars(image, range_width, ascii_chars):
     """Maps each pixel to an ascii character based on the range
     in which it lies.
@@ -131,11 +134,12 @@ def convert_image_to_ascii(
     image = scale_image(image)
     image = convert_to_grayscale(image)
 
-    pixels_to_chars = map_pixels_to_ascii_chars(image, range_width, ascii_chars)
+    pixels_to_chars = map_pixels_to_ascii_chars(
+        image, range_width, ascii_chars)
     len_pixels_to_chars = len(pixels_to_chars)
 
     image_ascii = [
-        pixels_to_chars[index : index + new_width]
+        pixels_to_chars[index: index + new_width]
         for index in range(0, len_pixels_to_chars, new_width)
     ]
 
@@ -143,7 +147,8 @@ def convert_image_to_ascii(
         # The generated ASCII image is approximately 1.35 times
         # larger than the original image
         # So, we will drop one line after every 3 lines
-        image_ascii = [char for index, char in enumerate(image_ascii) if index % 4 != 0]
+        image_ascii = [char for index, char in enumerate(
+            image_ascii) if index % 4 != 0]
 
     return "\n".join(image_ascii)
 
@@ -226,7 +231,6 @@ def welcome_message(console):
 
 def handle_black_yellow(image):
     map_pixels_to_color(image)
-
 
 
 def handle_image_print(image_ascii, color=None):
@@ -413,6 +417,55 @@ def handle_store_art(path, image_ascii, color):
         )
 
 
+def video_to_ascii(filename):
+    # Open the video file
+    cap = cv2.VideoCapture(filename)
+
+    # Define the list of ASCII characters to use for the conversion
+    ascii_chars = [' ', '.', ':', '-', '=', '+', '*', '#', '%', '@']
+
+    # Initialize the ASCII art string
+    ascii_str = ''
+
+    # Loop through each frame of the video
+    while cap.isOpened():
+        # Read the frame
+        ret, frame = cap.read()
+
+        if ret:
+            # Convert the frame to grayscale
+            gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
+            # Resize the grayscale image to a smaller size
+            small_gray = cv2.resize(gray, (80, 60))
+
+            # Convert the pixel values to ASCII characters
+            ascii_frame = ''
+            for row in small_gray:
+                for pixel in row:
+                    ascii_frame += ascii_chars[pixel // 25]
+                ascii_frame += '\n'
+
+            # Add the ASCII frame to the ASCII art string
+            ascii_str += ascii_frame
+
+            # Display the ASCII frame
+            print(ascii_frame)
+
+            # Check for user input to stop the conversion
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
+        else:
+            break
+
+    # Release the video file and close the window
+    cap.release()
+    cv2.destroyAllWindows()
+
+    # Return the ASCII art string
+    return ascii_str
+
+
 def main():
     args = init_args_parser()
 
@@ -441,8 +494,9 @@ def main():
         image, range_width, ascii_chars, args.inverse_image
     )
     if args.single_ascii_char:
-        image_ascii = single_ascii_replacement(image_ascii, args.single_ascii_char)
-    
+        image_ascii = single_ascii_replacement(
+            image_ascii, args.single_ascii_char)
+
     if args.drawing:
         drawing(image_ascii)
         print("\n")
