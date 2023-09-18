@@ -2,7 +2,7 @@
 
 # [![ASCII ART](https://img.shields.io/badge/PYTHON%20PROJECT-ASCII%20ART-blue?style=for-the-badge&logo=Python)](https://github.com/zero-to-mastery/ascii-art-2022)
 
-Welcome to this years Python challenge for Hacktoberfest, a project with beginners and aspiring developers in mind, utilizing Python to convert images into ASCII Art.
+Welcome to this year's Python challenge for Hacktoberfest, a project with beginners and aspiring developers in mind, utilizing Python to convert images into ASCII Art.
 
 ## ❇️ Getting Started with Hacktoberfest
 
@@ -31,14 +31,14 @@ These two resources have everything you need to learn about open-source, with a 
 In order to get started on this project, it is recommended that you watch the section on **Scripting** in the [Python course](https://academy.zerotomastery.io/p/complete-python-developer-zero-to-mastery?utm_source=github&utm_campaign=ascii-art-hf22). We talk about `sys.argv` and `Pillow` library (Image processing) in that section which would help you!
 
 1. First up you need to fork (make a copy) of this repo to your Github account.
-2. Clone (download) your fork to your computer
+2. Clone (download) your fork to your computer.
 3. Set your streams so you can sync your clone with the original repo (get the latest updates)
 
    - `git remote add upstream https://github.com/zero-to-mastery/ascii-art-2022.git`
    - `git pull upstream master`
    - The above 2 commands will synchronize your forked version of the project with the actual repository.
 
-4. Make sure you have Python 3 installed on your machine
+4. Make sure you have Python 3 installed on your machine.
 5. Install necessary dependencies by running `pip3 install -r requirements.txt`.
 6. Run the example code with the command: `python3 example/make_art.py example/ztm-logo.png`
 7. Stare with amazement 😮
